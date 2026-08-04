@@ -1,67 +1,65 @@
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
+body {
+    margin:0;
+    overflow:hidden;
+    background:black;
+    font-family:Arial, sans-serif;
 }
 
-body{
 
-background:black;
-overflow:hidden;
-font-family:Arial;
-
+/* Jam kanan atas */
+#clock {
+    position:absolute;
+    top:20px;
+    right:30px;
+    color:white;
+    font-size:40px;
+    font-weight:bold;
+    z-index:10;
 }
 
-#player{
 
-width:100vw;
-height:100vh;
-
+/* Video full */
+.video-container {
+    width:100vw;
+    height:calc(100vh - 70px);
 }
 
-img,video{
 
-width:100%;
-height:100%;
-object-fit:cover;
-display:none;
-
+iframe {
+    width:100%;
+    height:100%;
 }
 
-#clock{
 
-position:absolute;
-
-top:20px;
-
-right:30px;
-
-font-size:35px;
-
-color:white;
-
-font-weight:bold;
-
+/* Running text */
+.ticker {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:70px;
+    background:#002060;
+    color:white;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
 }
 
-#ticker{
 
-position:absolute;
+.ticker-text {
+    white-space:nowrap;
+    font-size:32px;
+    animation:scroll 20s linear infinite;
+}
 
-bottom:0;
 
-width:100%;
+@keyframes scroll {
 
-height:45px;
+from {
+    transform:translateX(100%);
+}
 
-background:#c00000;
-
-color:white;
-
-display:flex;
-
-align-items:center;
-
-font-size:22px;
+to {
+    transform:translateX(-100%);
+}
 
 }
