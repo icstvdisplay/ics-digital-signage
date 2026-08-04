@@ -1,32 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<title>ICS Digital Signage</title>
-
-<link rel="stylesheet" href="style.css">
-
+    <title>ICS Display</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div id="player">
-
-    <img id="imagePlayer">
-
-    <video id="videoPlayer" autoplay muted></video>
-
-</div>
-
 <div id="clock"></div>
 
-<div id="ticker">
-    <marquee id="runningText"></marquee>
+<div class="video-container">
+    <iframe 
+    src="https://www.youtube.com/embed/ZzKQcVfv5L0?autoplay=1&mute=1&loop=1&playlist=ZzKQcVfv5L0"
+    frameborder="0"
+    allow="autoplay; fullscreen">
+    </iframe>
 </div>
+
+
+<div class="ticker">
+    <div class="ticker-text">
+        Welcome to Indonesian Creative School — Inspiring Young Minds, Creating Global Impact
+    </div>
+</div>
+
 
 <script src="script.js"></script>
 
