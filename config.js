@@ -1,6 +1,6 @@
 const CONFIG = {
 
-youtubeId:"ZzKQcVfv5L0",
+youtubeId:"VIDEO_BARU",
 
 runningText:"Welcome to Indonesian Creative School",
 
