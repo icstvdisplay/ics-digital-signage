@@ -28,25 +28,40 @@ font-weight:bold;
 
 
 
-.video-container {
-
-width:100vw;
-
-height:calc(100vh - 70px);
-
-
+.video-container{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100vw;
+    height:calc(100vh - 70px);
+    overflow:hidden;
 }
 
-
-
-iframe {
-
-width:100%;
-
-height:100%;
-
+.video-container iframe{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:100vw;
+    height:56.25vw;      /* 16:9 */
+    min-width:177.78vh;
+    min-height:100%;
+    transform:translate(-50%,-50%);
+    border:none;
 }
 
+@media (min-aspect-ratio:16/9){
+    .video-container iframe{
+        width:100vw;
+        height:56.25vw;
+    }
+}
+
+@media (max-aspect-ratio:16/9){
+    .video-container iframe{
+        width:177.78vh;
+        height:100vh;
+    }
+}
 
 
 .ticker {
