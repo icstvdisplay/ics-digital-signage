@@ -1,43 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <title>ICS Digital Signage</title>
 
-<style>
-body{
-    margin:0;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    background:#111;
-    color:white;
-    font-family:Arial;
-}
-
-h1{
-    font-size:60px;
-}
-
-p{
-    text-align:center;
-    font-size:22px;
-}
-</style>
+<link rel="stylesheet" href="style.css">
 
 </head>
+
 <body>
 
-<div>
-<h1>ICS DIGITAL SIGNAGE</h1>
+<div id="player">
 
-<p>
-Cloudflare Pages berhasil terhubung dengan GitHub 🚀
-</p>
+    <img id="imagePlayer">
+
+    <video id="videoPlayer" autoplay muted></video>
 
 </div>
+
+<div id="clock"></div>
+
+<div id="ticker">
+    <marquee id="runningText"></marquee>
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
