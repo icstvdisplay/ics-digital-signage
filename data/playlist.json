@@ -1,0 +1,12 @@
+[
+  {
+    "type": "image",
+    "src": "assets/images/banner1.jpg",
+    "duration": 8
+  },
+  {
+    "type": "image",
+    "src": "assets/images/banner2.jpg",
+    "duration": 8
+  }
+]
