@@ -1,19 +1,25 @@
-function updateClock(){
+function clock(){
 
 let now = new Date();
 
-let time =
-now.getHours().toString().padStart(2,'0')
-+ ":" +
-now.getMinutes().toString().padStart(2,'0')
-+ ":" +
-now.getSeconds().toString().padStart(2,'0');
+
+let h = now.getHours();
+let m = now.getMinutes();
+let s = now.getSeconds();
 
 
-document.getElementById("clock").innerHTML=time;
+document.getElementById("clock").innerHTML =
+
+h.toString().padStart(2,"0")
++ ":" +
+m.toString().padStart(2,"0")
++ ":" +
+s.toString().padStart(2,"0");
+
 
 }
 
-setInterval(updateClock,1000);
 
-updateClock();
+setInterval(clock,1000);
+
+clock();
