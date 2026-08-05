@@ -37,7 +37,7 @@ function updateCountdown() {
 
     if (diff <= 0) {
         document.getElementById("countdown").innerHTML =
-            "🇮🇩 Celebration Independence Day";
+            "Celebration Independence Day";
         return;
     }
 
@@ -47,7 +47,7 @@ function updateCountdown() {
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
     document.getElementById("countdown").innerHTML =
-        `🇮🇩 Independence Day : ${days} Days ${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+        `Independence Day : ${days} Days ${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
 }
 
 setInterval(updateCountdown, 1000);
