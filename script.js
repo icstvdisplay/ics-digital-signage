@@ -54,10 +54,7 @@ setInterval(updateCountdown, 1000);
 updateCountdown();
 
 
-// =========================
-// AUTO REFRESH
-// =========================
-
-setInterval(function () {
+// Reload halaman setiap 4 jam
+setInterval(() => {
     location.reload();
 }, 4 * 60 * 60 * 1000);
