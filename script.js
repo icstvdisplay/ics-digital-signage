@@ -28,7 +28,7 @@ setInterval(updateClock, 60000);
 // COUNTDOWN
 // =========================
 
-const eventDate = new Date("2026-08-17T00:00:00");
+const eventDate = new Date("2026-08-17T08:00:00");;
 
 function updateCountdown() {
 
