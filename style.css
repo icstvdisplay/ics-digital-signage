@@ -30,6 +30,28 @@ background:black;
     line-height: 1;
 }
 
+#countdown{
+
+    position:absolute;
+
+    bottom:40px;      /* tepat di atas ticker */
+
+    left:20px;
+
+    z-index:100;
+
+    color:white;
+
+    font-size:24px;
+
+    font-family:Arial;
+
+    font-weight:bold;
+
+    text-shadow:2px 2px 4px black;
+
+}
+
 
 .video-container{
     position:fixed;
@@ -65,6 +87,8 @@ background:black;
         height:100vh;
     }
 }
+
+
 
 
 .ticker {
