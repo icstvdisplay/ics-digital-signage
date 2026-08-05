@@ -37,7 +37,7 @@ function updateCountdown() {
 
     if (diff <= 0) {
         document.getElementById("countdown").innerHTML =
-            "🇮🇩 Happy Independence Day";
+            "🇮🇩 Celebration Independence Day";
         return;
     }
 
