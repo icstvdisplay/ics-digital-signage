@@ -1,25 +1,24 @@
-function clock(){
+function updateClock() {
+    const now = new Date();
 
-let now = new Date();
+    const date = now.toLocaleDateString('en-US', {
+        weekday: 'long',
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric'
+    });
 
+    const time = now.toLocaleTimeString('en-GB', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+    });
 
-let h = now.getHours();
-let m = now.getMinutes();
-let s = now.getSeconds();
-
-
-document.getElementById("clock").innerHTML =
-
-h.toString().padStart(2,"0")
-+ ":" +
-m.toString().padStart(2,"0")
-+ ":" +
-s.toString().padStart(2,"0");
-
-
+    document.getElementById("date").textContent = date;
+    document.getElementById("clock").textContent = time;
 }
 
+updateClock();
 
-setInterval(clock,1000);
-
-clock();
+// Cukup diperbarui setiap menit
+setInterval(updateClock, 60000);
