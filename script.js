@@ -59,5 +59,5 @@ updateCountdown();
 // =========================
 
 setInterval(function () {
-    console.log("Auto Refresh");
-}, 5000);
+    location.reload();
+}, 4 * 60 * 60 * 1000);
