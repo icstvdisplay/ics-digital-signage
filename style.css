@@ -84,40 +84,24 @@ background:black;
 
 .ticker {
 
-position:absolute;
-
-bottom:0;
-
-height:70px;
-
-width:100%;
-
-background:#002060;
-
-overflow:hidden;
-
-display:flex;
-
-align-items:center;
+    position:absolute;
+    bottom:0;
+    height:50px;
+    width:100%;
+    background:#002060;
+    overflow:hidden;
+    display:flex;
+    align-items:center;
 
 }
 
-
-
 .ticker-text {
 
-
-color:white;
-
-font-size:32px;
-
-font-weight:bold;
-
-white-space:nowrap;
-
-
-animation:move 40s linear infinite;
-
+    color:white;
+    font-size:32px;
+    font-weight:bold;
+    white-space:nowrap;
+    animation:move 40s linear infinite;
 
 }
 
