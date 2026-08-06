@@ -19,7 +19,7 @@ player.addEventListener("ended", () => {
 
 playVideo();
 
-----------------------------------------------
+//----------------------------------------------
 function updateClock() {
     const now = new Date();
 
