@@ -3,24 +3,31 @@ let index = 0;
 
 const player = document.getElementById("player");
 
+function playVideo(i){
+    player.src = videos[i];
+    player.load();
+
+    player.onloadeddata = () => {
+        player.play().catch(err => console.log(err));
+    };
+}
+
 fetch("data/playlist.json")
-.then(response => response.json())
+.then(r => r.json())
 .then(data => {
+
     videos = data.videos;
 
-    // Mulai dengan video pertama
-    player.src = videos[index];
-    player.load();
+    if(videos.length){
+        playVideo(0);
+    }
+
 });
 
 player.addEventListener("ended", () => {
     index = (index + 1) % videos.length;
-
-    player.src = videos[index];
-    player.load();
-    player.play();
+    playVideo(index);
 });
-
 //----------------------------------------------
 function updateClock() {
     const now = new Date();
