@@ -89,6 +89,6 @@ updateCountdown();
 
 
 // Reload halaman setiap 4 jam
-setInterval(() => {
-    location.reload();
-}, 4 * 60 * 60 * 1000);
+//setInterval(() => {
+//    location.reload();
+//}, 4 * 60 * 60 * 1000);
