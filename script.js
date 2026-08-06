@@ -1,6 +1,5 @@
 let videos = [];
 let index = 0;
-let started = false;
 
 const player = document.getElementById("player");
 
@@ -10,24 +9,15 @@ fetch("data/playlist.json")
 
     videos = data.videos;
 
-    if (videos.length > 0) {
-        player.src = videos[0];
-        player.load();
-    }
+    player.src = videos[0];
+    player.load();
 
 });
 
-// Klik sekali untuk mulai playlist
 player.addEventListener("click", () => {
-
-    if (!started) {
-        started = true;
-        player.play();
-    }
-
+    player.play();
 });
 
-// Otomatis ke video berikutnya
 player.addEventListener("ended", () => {
 
     index = (index + 1) % videos.length;
@@ -40,6 +30,8 @@ player.addEventListener("ended", () => {
     };
 
 });
+
+
 //----------------------------------------------
 function updateClock() {
     const now = new Date();
