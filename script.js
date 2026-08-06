@@ -1,5 +1,6 @@
 let videos = [];
 let index = 0;
+let started = false;
 
 const player = document.getElementById("player");
 
@@ -9,15 +10,24 @@ fetch("data/playlist.json")
 
     videos = data.videos;
 
-    player.src = videos[0];
-    player.load();
+    if (videos.length > 0) {
+        player.src = videos[0];
+        player.load();
+    }
 
 });
 
+// Klik video sekali untuk memulai playlist
 player.addEventListener("click", () => {
-    player.play();
+
+    if (!started) {
+        started = true;
+        player.play().catch(err => console.log(err));
+    }
+
 });
 
+// Pindah ke video berikutnya
 player.addEventListener("ended", () => {
 
     index = (index + 1) % videos.length;
@@ -26,7 +36,7 @@ player.addEventListener("ended", () => {
     player.load();
 
     player.onloadeddata = () => {
-        player.play();
+        player.play().catch(err => console.log(err));
     };
 
 });
