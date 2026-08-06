@@ -1,3 +1,25 @@
+const videos = [
+    "videoagst1.mp4",
+    "videoagst2.m4v"
+];
+
+let index = 0;
+
+const player = document.getElementById("player");
+
+function playVideo() {
+    player.src = videos[index];
+    player.play();
+}
+
+player.addEventListener("ended", () => {
+    index = (index + 1) % videos.length;
+    playVideo();
+});
+
+playVideo();
+
+----------------------------------------------
 function updateClock() {
     const now = new Date();
 
