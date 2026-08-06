@@ -1,60 +1,5 @@
-let videos = [];
-let index = 0;
-let started = false;
-
-const player = document.getElementById("player");
-
-fetch("data/playlist.json")
-.then(response => response.json())
-.then(data => {
-
-    videos = data.videos;
-
-    if (videos.length > 0) {
-        player.src = videos[0];
-        player.load();
-    }
-
-});
-
-// Klik pertama
-function startPlayback() {
-
-    if (started) return;
-
-    started = true;
-
-    player.play().catch(function(err){
-        console.log(err);
-    });
-
-}
-
-// Klik pada video
-player.addEventListener("click", startPlayback);
-
-// Klik di seluruh halaman (lebih kompatibel dengan VIDAA)
-document.body.addEventListener("click", startPlayback);
-
-// Video selesai
-player.addEventListener("ended", function(){
-
-    index++;
-
-    if(index >= videos.length){
-        index = 0;
-    }
-
-    player.src = videos[index];
-    player.load();
-
-    player.play().catch(function(err){
-        console.log(err);
-    });
-
-});
-
-
+//----------------------------------------------
+// CLOCK
 //----------------------------------------------
 function updateClock() {
     const now = new Date();
@@ -77,19 +22,14 @@ function updateClock() {
 }
 
 updateClock();
-
-// Cukup diperbarui setiap menit
 setInterval(updateClock, 60000);
 
-
-// =========================
+//----------------------------------------------
 // COUNTDOWN
-// =========================
-
-const eventDate = new Date("2026-08-17T08:00:00");;
+//----------------------------------------------
+const eventDate = new Date("2026-08-17T08:00:00");
 
 function updateCountdown() {
-
     const now = new Date();
     const diff = eventDate - now;
 
@@ -108,11 +48,10 @@ function updateCountdown() {
         `Independence Day : ${days} Days ${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
 }
 
-setInterval(updateCountdown, 1000);
 updateCountdown();
-
+setInterval(updateCountdown, 1000);
 
 // Reload halaman setiap 4 jam
-//setInterval(() => {
-//    location.reload();
-//}, 4 * 60 * 60 * 1000);
+// setInterval(() => {
+//     location.reload();
+// }, 4 * 60 * 60 * 1000);
