@@ -17,28 +17,40 @@ fetch("data/playlist.json")
 
 });
 
-// Klik video sekali untuk memulai playlist
-player.addEventListener("click", () => {
+// Klik pertama
+function startPlayback() {
 
-    if (!started) {
-        started = true;
-        player.play().catch(err => console.log(err));
+    if (started) return;
+
+    started = true;
+
+    player.play().catch(function(err){
+        console.log(err);
+    });
+
+}
+
+// Klik pada video
+player.addEventListener("click", startPlayback);
+
+// Klik di seluruh halaman (lebih kompatibel dengan VIDAA)
+document.body.addEventListener("click", startPlayback);
+
+// Video selesai
+player.addEventListener("ended", function(){
+
+    index++;
+
+    if(index >= videos.length){
+        index = 0;
     }
-
-});
-
-// Pindah ke video berikutnya
-player.addEventListener("ended", async () => {
-
-    index = (index + 1) % videos.length;
 
     player.src = videos[index];
+    player.load();
 
-    try {
-        await player.play();
-    } catch (err) {
+    player.play().catch(function(err){
         console.log(err);
-    }
+    });
 
 });
 
