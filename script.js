@@ -2,46 +2,23 @@ let videos = [];
 let index = 0;
 
 const player = document.getElementById("player");
-const overlay = document.getElementById("playOverlay");
-const button = document.getElementById("playButton");
 
 fetch("data/playlist.json")
 .then(response => response.json())
 .then(data => {
-
     videos = data.videos;
 
-    playVideo();
-
-});
-
-function playVideo() {
-
+    // Mulai dengan video pertama
     player.src = videos[index];
     player.load();
-
-    player.onloadeddata = () => {
-        player.play().catch(err => {
-            console.log(err);
-        });
-    };
-
-}
-
-button.addEventListener("click", () => {
-
-    player.play();
-
-    overlay.style.display = "none";
-
 });
 
 player.addEventListener("ended", () => {
-
     index = (index + 1) % videos.length;
 
-    playVideo();
-
+    player.src = videos[index];
+    player.load();
+    player.play();
 });
 
 //----------------------------------------------
