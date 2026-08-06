@@ -47,27 +47,34 @@ text-shadow:2px 2px 4px rgba(0,0,0,.8);
 }
 
 /* VIDEO */
-.video-container{
-position:fixed;
-top:0;
-left:0;
-width:100vw;
-height:100vh;
-overflow:hidden;
-background:black;
+.video-container video{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%) scale(1.02);
+    object-fit:cover;
+    filter:
+        brightness(.95)
+        contrast(1.05)
+        saturate(1.08);
+    transition:opacity .8s ease;
 }
 
-.video-container video{
-position:absolute;
-top:50%;
-left:50%;
-width:100vw;
-height:56.25vw;
-min-width:177.78vh;
-min-height:100%;
-transform:translate(-50%,-50%);
-object-fit:cover;
-z-index:1;
+.video-container::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(
+        to right,
+        rgba(0,0,0,.55),
+        rgba(0,0,0,.15),
+        rgba(0,0,0,.25)
+    );
+
+    z-index:2;
+
+    pointer-events:none;
 }
 
 /* 16:9 */
