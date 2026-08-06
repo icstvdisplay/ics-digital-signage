@@ -1,12 +1,6 @@
-[
-  {
-    "type": "image",
-    "src": "assets/images/banner1.jpg",
-    "duration": 8
-  },
-  {
-    "type": "image",
-    "src": "assets/images/banner2.jpg",
-    "duration": 8
-  }
-]
+{
+    "videos": [
+        "video/videoagst1.mp4",
+        "video/videoagst2.m4v"
+    ]
+}
