@@ -4,12 +4,15 @@ const videos = [
 ];
 
 let index = 0;
-
 const player = document.getElementById("player");
 
 function playVideo() {
     player.src = videos[index];
-    player.play();
+    player.load();
+
+    player.play().catch(error => {
+        console.log("Autoplay gagal:", error);
+    });
 }
 
 player.addEventListener("ended", () => {
