@@ -129,14 +129,3 @@ z-index:9999;
 pointer-events:auto;
 }
 
-#playButton{
-font-size:48px;
-padding:20px 50px;
-border:none;
-border-radius:12px;
-cursor:pointer;
-background:#0056d6;
-color:white;
-font-weight:bold;
-pointer-events:auto;
-}
