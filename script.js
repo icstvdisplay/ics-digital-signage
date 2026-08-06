@@ -1,32 +1,44 @@
 let videos = [];
 let index = 0;
+let started = false;
 
 const player = document.getElementById("player");
 
-function playVideo(i){
-    player.src = videos[i];
-    player.load();
-
-    player.onloadeddata = () => {
-        player.play().catch(err => console.log(err));
-    };
-}
-
 fetch("data/playlist.json")
-.then(r => r.json())
+.then(response => response.json())
 .then(data => {
 
     videos = data.videos;
 
-    if(videos.length){
-        playVideo(0);
+    if (videos.length > 0) {
+        player.src = videos[0];
+        player.load();
     }
 
 });
 
+// Klik sekali untuk mulai playlist
+player.addEventListener("click", () => {
+
+    if (!started) {
+        started = true;
+        player.play();
+    }
+
+});
+
+// Otomatis ke video berikutnya
 player.addEventListener("ended", () => {
+
     index = (index + 1) % videos.length;
-    playVideo(index);
+
+    player.src = videos[index];
+    player.load();
+
+    player.onloadeddata = () => {
+        player.play();
+    };
+
 });
 //----------------------------------------------
 function updateClock() {
