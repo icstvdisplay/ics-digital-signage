@@ -2,42 +2,38 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
     <title>ICS Display</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- Clock -->
-<div id="datetime">
-    <div id="date"></div>
-    <div id="clock"></div>
-</div>
-
-
-<!-- Youtube Video -->
-<div class="video-container">
-<iframe
-    width="100%"
-    height="100%"
-    src="https://www.youtube.com/embed/ZzKQcVfv5L0?autoplay=1&loop=1&playlist=ZzKQcVfv5L0&controls=0&rel=0&playsinline=1"
-    frameborder="0"
-    allow="autoplay; encrypted-media"
-    allowfullscreen>
-</iframe>
-</div>
-
-<div id="countdown"></div>
-
-<!-- Running Text -->
-<div class="ticker">
-    <div class="ticker-text">
-        -- Welcome to Indonesian Creative School — Inspiring Young Minds, Creating Global Impact --  | ICS Events | 14 August 2026 – Independence Day Celebration | 17 August 2026 – Indonesian Independence Day
+    <!-- Clock -->
+    <div id="datetime">
+        <div id="date"></div>
+        <div id="clock"></div>
     </div>
-</div>
 
-<script src="script.js"></script>
-    
+    <!-- Video -->
+    <div class="video-container">
+        <video id="player" autoplay playsinline></video>
+    </div>
+
+    <!-- Countdown -->
+    <div id="countdown"></div>
+
+    <!-- Running Text -->
+    <div class="ticker">
+        <div class="ticker-text">
+            -- Welcome to Indonesian Creative School — Inspiring Young Minds, Creating Global Impact -- |
+            ICS Events | 14 August 2026 – Independence Day Celebration |
+            17 August 2026 – Indonesian Independence Day
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+
 </body>
 
 </html>
