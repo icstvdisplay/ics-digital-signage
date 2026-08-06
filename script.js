@@ -20,13 +20,11 @@ function playVideo() {
     player.src = videos[index];
     player.load();
 
-    player.play()
-    .then(() => {
-        overlay.style.display = "none";
-    })
-    .catch(() => {
-        overlay.style.display = "flex";
-    });
+    player.onloadeddata = () => {
+        player.play().catch(err => {
+            console.log(err);
+        });
+    };
 
 }
 
