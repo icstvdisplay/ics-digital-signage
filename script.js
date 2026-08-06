@@ -2,6 +2,8 @@ let videos = [];
 let index = 0;
 
 const player = document.getElementById("player");
+const overlay = document.getElementById("playOverlay");
+const button = document.getElementById("playButton");
 
 fetch("data/playlist.json")
 .then(response => response.json())
@@ -13,24 +15,32 @@ fetch("data/playlist.json")
 
 });
 
-function playVideo(){
+function playVideo() {
 
     player.src = videos[index];
     player.load();
 
-    player.play().catch(err=>{
-        console.log(err);
+    player.play()
+    .then(() => {
+        overlay.style.display = "none";
+    })
+    .catch(() => {
+        overlay.style.display = "flex";
     });
 
 }
 
-player.addEventListener("ended",()=>{
+button.addEventListener("click", () => {
 
-    index++;
+    player.play();
 
-    if(index>=videos.length){
-        index=0;
-    }
+    overlay.style.display = "none";
+
+});
+
+player.addEventListener("ended", () => {
+
+    index = (index + 1) % videos.length;
 
     playVideo();
 
