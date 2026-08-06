@@ -4,20 +4,33 @@ const videos = [
 ];
 
 let index = 0;
+
 const player = document.getElementById("player");
+const overlay = document.getElementById("playOverlay");
+const button = document.getElementById("playButton");
 
-// Muat video pertama
-player.src = videos[index];
-player.load();
-
-// Saat video selesai, lanjut ke video berikutnya
-player.addEventListener("ended", () => {
-    index = (index + 1) % videos.length;
+function playVideo() {
     player.src = videos[index];
     player.load();
+
+    player.play().then(() => {
+        overlay.style.display = "none";
+    }).catch(() => {
+        overlay.style.display = "flex";
+    });
+}
+
+button.addEventListener("click", () => {
     player.play();
+    overlay.style.display = "none";
 });
 
+player.addEventListener("ended", () => {
+    index = (index + 1) % videos.length;
+    playVideo();
+});
+
+playVideo();
 //----------------------------------------------
 function updateClock() {
     const now = new Date();
