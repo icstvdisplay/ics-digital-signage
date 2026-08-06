@@ -6,21 +6,17 @@ const videos = [
 let index = 0;
 const player = document.getElementById("player");
 
-function playVideo() {
-    player.src = videos[index];
-    player.load();
+// Muat video pertama
+player.src = videos[index];
+player.load();
 
-    player.play().catch(error => {
-        console.log("Autoplay gagal:", error);
-    });
-}
-
+// Saat video selesai, lanjut ke video berikutnya
 player.addEventListener("ended", () => {
     index = (index + 1) % videos.length;
-    playVideo();
+    player.src = videos[index];
+    player.load();
+    player.play();
 });
-
-playVideo();
 
 //----------------------------------------------
 function updateClock() {
