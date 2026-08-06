@@ -28,16 +28,17 @@ player.addEventListener("click", () => {
 });
 
 // Pindah ke video berikutnya
-player.addEventListener("ended", () => {
+player.addEventListener("ended", async () => {
 
     index = (index + 1) % videos.length;
 
     player.src = videos[index];
-    player.load();
 
-    player.onloadeddata = () => {
-        player.play().catch(err => console.log(err));
-    };
+    try {
+        await player.play();
+    } catch (err) {
+        console.log(err);
+    }
 
 });
 
