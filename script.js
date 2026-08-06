@@ -1,36 +1,41 @@
-const videos = [
-    "video/videoagst1.mp4",
-    "video/videoagst2.m4v"
-];
-
+let videos = [];
 let index = 0;
 
 const player = document.getElementById("player");
-const overlay = document.getElementById("playOverlay");
-const button = document.getElementById("playButton");
 
-function playVideo() {
+fetch("data/playlist.json")
+.then(response => response.json())
+.then(data => {
+
+    videos = data.videos;
+
+    playVideo();
+
+});
+
+function playVideo(){
+
     player.src = videos[index];
     player.load();
 
-    player.play().then(() => {
-        overlay.style.display = "none";
-    }).catch(() => {
-        overlay.style.display = "flex";
+    player.play().catch(err=>{
+        console.log(err);
     });
+
 }
 
-button.addEventListener("click", () => {
-    player.play();
-    overlay.style.display = "none";
-});
+player.addEventListener("ended",()=>{
 
-player.addEventListener("ended", () => {
-    index = (index + 1) % videos.length;
+    index++;
+
+    if(index>=videos.length){
+        index=0;
+    }
+
     playVideo();
+
 });
 
-playVideo();
 //----------------------------------------------
 function updateClock() {
     const now = new Date();
