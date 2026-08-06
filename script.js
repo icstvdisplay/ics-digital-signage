@@ -1,6 +1,6 @@
 const videos = [
-    "videoagst1.mp4",
-    "videoagst2.m4v"
+    "video/videoagst1.mp4",
+    "video/videoagst2.m4v"
 ];
 
 let index = 0;
