@@ -330,39 +330,32 @@ html, body {
     right: 1.5%;
     top: 4%;
     z-index: 8;
+
     min-width: 285px;
     padding: 10px 18px;
+
     border-radius: 15px;
-    background: rgba(4,22,55,.92);
-    border: 1px solid rgba(255,255,255,.30);
-    box-shadow: 0 5px 20px rgba(0,0,0,.4);
+
+    /* BACKGROUND HANYA 35% */
+    background-color: rgba(4, 22, 55, 0.35) !important;
+
+    /* Border tetap terlihat */
+    border: 1px solid rgba(255, 255, 255, 0.30);
+
+    /* Jangan gunakan opacity: 0.35 di sini */
+    opacity: 1;
+
     display: flex;
     align-items: center;
     gap: 13px;
-}
 
-.calendar-small {
-    font-size: 28px;
-}
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.20);
 
-.date-day {
-    font-size: 11px;
-    font-weight: bold;
+    /* efek transparan/glass */
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
 }
-
-.date-full {
-    font-size: 10px;
-    color: #c6cede;
-    margin-top: 4px;
-}
-
-.time {
-    border-left: 1px solid rgba(255,255,255,.35);
-    padding-left: 16px;
-    font-size: clamp(23px, 2vw, 40px);
-    font-weight: 900;
-}
-
+    
 /* BOTTOM BAR */
 .bottom {
     grid-column: 1 / 3;
