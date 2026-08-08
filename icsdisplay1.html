@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ICS Digital Display</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #020816;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+:root {
+    --blue: #061b4d;
+    --blue2: #0a2d70;
+    --gold: #ffbf25;
+    --red: #e51d2a;
+    --line: rgba(255,255,255,.30);
+}
+
+/* MAIN 16:9 DISPLAY */
+.display {
+    width: 100vw;
+    height: 100vh;
+    min-width: 960px;
+    min-height: 540px;
+    display: grid;
+    grid-template-columns: 27% 73%;
+    grid-template-rows: 90% 10%;
+    background:
+        radial-gradient(circle at 70% 40%, rgba(10,55,130,.22), transparent 40%),
+        linear-gradient(135deg, #02091d, #031333 55%, #020817);
+}
+
+/* LEFT SIDE */
+.sidebar {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 3.2% 5%;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5%;
+    border-right: 1px solid rgba(255,255,255,.08);
+    background:
+        linear-gradient(145deg, rgba(7,27,76,.95), rgba(2,12,35,.95));
+}
+
+.brand {
+    height: 25%;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+}
+
+.logo {
+    width: 30%;
+    max-width: 150px;
+    aspect-ratio: 1;
+    object-fit: contain;
+}
+
+.brand-text {
+    padding-top: 4px;
+}
+
+.school-name {
+    font-size: clamp(18px, 1.8vw, 42px);
+    line-height: .98;
+    font-weight: 900;
+    letter-spacing: -.5px;
+}
+
+.tagline {
+    margin-top: 14px;
+    color: var(--gold);
+    font-size: clamp(10px, .9vw, 20px);
+    line-height: 1.2;
+}
+
+.gold-line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: var(--gold);
+}
+
+/* EVENTS */
+.panel {
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 15px;
+    background: rgba(3,16,43,.70);
+    overflow: hidden;
+    box-shadow: inset 0 0 30px rgba(0,90,220,.08);
+}
+
+.events {
+    height: 45%;
+    padding: 14px 16px;
+}
+
+.panel-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255,255,255,.18);
+    padding-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+.panel-title strong {
+    font-size: clamp(13px, 1.15vw, 25px);
+}
+
+.view-all {
+    color: #ff3040;
+    font-size: clamp(9px, .75vw, 16px);
+    font-weight: bold;
+}
+
+.event {
+    display: grid;
+    grid-template-columns: 58px 1fr;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255,255,255,.16);
+}
+
+.event:last-child {
+    border-bottom: 0;
+}
+
+.event-date {
+    background: linear-gradient(#ef2332, #bd0815);
+    border-radius: 7px;
+    height: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+}
+
+.event-date span:first-child {
+    font-size: 10px;
+}
+
+.event-date span:last-child {
+    font-size: 21px;
+}
+
+.event-name {
+    font-size: clamp(11px, .95vw, 20px);
+    font-weight: bold;
+    margin-top: 3px;
+}
+
+.event-time {
+    font-size: clamp(9px, .75vw, 16px);
+    color: #aeb8cc;
+    margin-top: 7px;
+}
+
+/* COUNTDOWN */
+.countdown {
+    height: 27%;
+    background: linear-gradient(180deg, #082b69, #061633);
+}
+
+.countdown-head {
+    height: 44%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 15px;
+    border-bottom: 1px solid rgba(255,255,255,.12);
+}
+
+.calendar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #0a438e;
+    display: grid;
+    place-items: center;
+    font-size: 22px;
+}
+
+.count-label {
+    color: var(--gold);
+    font-size: clamp(9px, .75vw, 15px);
+    font-weight: bold;
+}
+
+.count-title {
+    font-size: clamp(15px, 1.25vw, 28px);
+    font-weight: 900;
+}
+
+.count-values {
+    height: 56%;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.count-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-right: 1px solid rgba(255,255,255,.25);
+}
+
+.count-box:last-child {
+    border-right: 0;
+}
+
+.count-number {
+    color: var(--gold);
+    font-size: clamp(22px, 2vw, 42px);
+    font-weight: 900;
+}
+
+.count-unit {
+    font-size: clamp(8px, .65vw, 14px);
+    font-weight: bold;
+}
+
+/* VIDEO AREA */
+.video-area {
+    grid-column: 2;
+    grid-row: 1;
+    position: relative;
+    margin: 2% 2% 2% 0;
+    border: 2px solid rgba(0,132,255,.75);
+    border-radius: 22px;
+    overflow: hidden;
+    background: #000;
+    box-shadow:
+        0 0 20px rgba(0,100,255,.25),
+        inset 0 0 30px rgba(0,0,0,.9);
+}
+
+/* decorative frame */
+.video-area::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 1px solid rgba(255,255,255,.15);
+    border-radius: 20px;
+    z-index: 5;
+}
+
+#youtube {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+}
+
+/* FIRST CLICK OVERLAY */
+#startOverlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,.08);
+}
+
+.start-button {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: rgba(225,25,38,.94);
+    border: 3px solid white;
+    box-shadow: 0 0 35px rgba(255,40,40,.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    padding-left: 6px;
+    transition: .2s;
+}
+
+#startOverlay:hover .start-button {
+    transform: scale(1.08);
+}
+
+/* DATE/TIME */
+.datetime {
+    position: absolute;
+    right: 1.5%;
+    top: 4%;
+    z-index: 8;
+    min-width: 285px;
+    padding: 10px 18px;
+    border-radius: 15px;
+    background: rgba(4,22,55,.92);
+    border: 1px solid rgba(255,255,255,.30);
+    box-shadow: 0 5px 20px rgba(0,0,0,.4);
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.calendar-small {
+    font-size: 28px;
+}
+
+.date-day {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.date-full {
+    font-size: 10px;
+    color: #c6cede;
+    margin-top: 4px;
+}
+
+.time {
+    border-left: 1px solid rgba(255,255,255,.35);
+    padding-left: 16px;
+    font-size: clamp(23px, 2vw, 40px);
+    font-weight: 900;
+}
+
+/* BOTTOM BAR */
+.bottom {
+    grid-column: 1 / 3;
+    grid-row: 2;
+    display: grid;
+    grid-template-columns: 19% 31% 50%;
+    align-items: center;
+    border-top: 2px solid var(--gold);
+    background: linear-gradient(90deg, #061b48, #04132f);
+    padding: 0 2.5%;
+}
+
+.announcement {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    background: linear-gradient(90deg, #e51d2a, #c20b18);
+    border-radius: 35px;
+    padding: 11px 25px;
+    width: fit-content;
+    font-weight: 900;
+    font-size: clamp(11px, 1vw, 21px);
+}
+
+.bottom-welcome {
+    padding-left: 3%;
+    border-left: 1px solid rgba(255,255,255,.35);
+    border-right: 1px solid rgba(255,255,255,.35);
+}
+
+.welcome-main {
+    font-size: clamp(12px, 1.05vw, 23px);
+    font-weight: 900;
+}
+
+.welcome-sub {
+    color: var(--gold);
+    margin-top: 5px;
+    font-size: clamp(10px, .9vw, 19px);
+}
+
+.values {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.value {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: clamp(10px, .85vw, 18px);
+}
+
+.value-icon {
+    width: 38px;
+    height: 38px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+}
+
+/* HIDE CONTROLS ON THE DISPLAY AFTER PLAY */
+.hide {
+    display: none !important;
+}
+
+/* Smaller screens */
+@media (max-width: 1100px) {
+    .display {
+        grid-template-columns: 30% 70%;
+    }
+
+    .sidebar {
+        padding: 2%;
+    }
+
+    .event {
+        grid-template-columns: 45px 1fr;
+    }
+
+    .event-date {
+        height: 42px;
+    }
+
+    .event-date span:last-child {
+        font-size: 17px;
+    }
+
+    .datetime {
+        min-width: 230px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="display">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+
+        <div class="brand">
+            <!-- GANTI DENGAN LOGO ICS -->
+            <img class="logo" src="logo.png" alt="ICS Logo">
+
+            <div class="brand-text">
+                <div class="school-name">
+                    INDONESIAN<br>
+                    CREATIVE<br>
+                    SCHOOL
+                </div>
+                <div class="tagline">
+                    Inspiring Young Minds,<br>
+                    Creating Global Impact
+                </div>
+            </div>
+
+            <div class="gold-line"></div>
+        </div>
+
+        <section class="panel events">
+            <div class="panel-title">
+                <strong>▣ &nbsp; EVENTS</strong>
+                <span class="view-all">VIEW ALL ❯</span>
+            </div>
+
+            <div class="event">
+                <div class="event-date"><span>AUG</span><span>10</span></div>
+                <div>
+                    <div class="event-name">Parent Orientation</div>
+                    <div class="event-time">08:00 AM - 10:00 AM</div>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="event-date"><span>AUG</span><span>15</span></div>
+                <div>
+                    <div class="event-name">National Flag Day Ceremony</div>
+                    <div class="event-time">07:30 AM - 09:00 AM</div>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="event-date"><span>AUG</span><span>20</span></div>
+                <div>
+                    <div class="event-name">Student Leadership Workshop</div>
+                    <div class="event-time">02:00 PM - 04:00 PM</div>
+                </div>
+            </div>
+
+            <div class="event">
+                <div class="event-date"><span>AUG</span><span>25</span></div>
+                <div>
+                    <div class="event-name">House Competition</div>
+                    <div class="event-time">All Day</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="panel countdown">
+            <div class="countdown-head">
+                <div class="calendar">▣</div>
+                <div>
+                    <div class="count-label">COUNTDOWN TO</div>
+                    <div class="count-title">INDEPENDENCE DAY</div>
+                </div>
+            </div>
+
+            <div class="count-values">
+                <div class="count-box"><div class="count-number" id="days">00</div><div class="count-unit">DAYS</div></div>
+                <div class="count-box"><div class="count-number" id="hours">00</div><div class="count-unit">HRS</div></div>
+                <div class="count-box"><div class="count-number" id="mins">00</div><div class="count-unit">MINS</div></div>
+                <div class="count-box"><div class="count-number" id="secs">00</div><div class="count-unit">SECS</div></div>
+            </div>
+        </section>
+
+    </aside>
+
+    <!-- VIDEO -->
+    <main class="video-area">
+
+        <!--
+            GANTI VIDEO_ID DENGAN ID VIDEO YOUTUBE.
+            Contoh:
+            https://www.youtube.com/watch?v=ABC123
+            VIDEO_ID = ABC123
+        -->
+        <iframe
+            id="youtube"
+            src="https://www.youtube.com/embed/VIDEO_ID?enablejsapi=1&rel=0&controls=1&playsinline=1&loop=1&playlist=VIDEO_ID"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+        </iframe>
+
+        <!-- Klik sekali untuk mulai video -->
+        <div id="startOverlay">
+            <div class="start-button">▶</div>
+        </div>
+
+        <div class="datetime">
+            <div class="calendar-small">▣</div>
+
+            <div>
+                <div class="date-day" id="day">SATURDAY</div>
+                <div class="date-full" id="date">AUGUST 08, 2026</div>
+            </div>
+
+            <div class="time" id="clock">10:28</div>
+        </div>
+
+    </main>
+
+    <!-- BOTTOM BAR -->
+    <footer class="bottom">
+
+        <div class="announcement">
+            📣 &nbsp; ANNOUNCEMENT
+        </div>
+
+        <div class="bottom-welcome">
+            <div class="welcome-main">Welcome to Indonesian Creative School</div>
+            <div class="welcome-sub">Inspiring Young Minds, Creating Global Impact</div>
+        </div>
+
+        <div class="values">
+            <div class="value">
+                <div class="value-icon">♥</div>
+                <span>Be Kind</span>
+            </div>
+
+            <div class="value">
+                <div class="value-icon">♟</div>
+                <span>Be Responsible</span>
+            </div>
+
+            <div class="value">
+                <div class="value-icon">★</div>
+                <span>Be Your Best</span>
+            </div>
+        </div>
+
+    </footer>
+
+</div>
+
+<script>
+/* =========================================================
+   KONFIGURASI
+   ========================================================= */
+
+// Target Independence Day Indonesia
+const independenceDate = new Date("2026-08-17T00:00:00+07:00");
+
+
+/* =========================================================
+   JAM & TANGGAL
+   ========================================================= */
+
+function updateClock() {
+    const now = new Date();
+
+    const days = [
+        "SUNDAY", "MONDAY", "TUESDAY",
+        "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"
+    ];
+
+    const months = [
+        "JANUARY", "FEBRUARY", "MARCH", "APRIL",
+        "MAY", "JUNE", "JULY", "AUGUST",
+        "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"
+    ];
+
+    const day = days[now.getDay()];
+    const date = String(now.getDate()).padStart(2, "0");
+    const month = months[now.getMonth()];
+    const year = now.getFullYear();
+
+    const hour = String(now.getHours()).padStart(2, "0");
+    const minute = String(now.getMinutes()).padStart(2, "0");
+
+    document.getElementById("day").textContent = day;
+    document.getElementById("date").textContent =
+        `${month} ${date}, ${year}`;
+
+    document.getElementById("clock").textContent =
+        `${hour}:${minute}`;
+}
+
+updateClock();
+setInterval(updateClock, 1000);
+
+
+/* =========================================================
+   COUNTDOWN
+   ========================================================= */
+
+function updateCountdown() {
+    const now = new Date();
+    const diff = independenceDate - now;
+
+    if (diff <= 0) {
+        document.getElementById("days").textContent = "00";
+        document.getElementById("hours").textContent = "00";
+        document.getElementById("mins").textContent = "00";
+        document.getElementById("secs").textContent = "00";
+        return;
+    }
+
+    const totalSeconds = Math.floor(diff / 1000);
+
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+
+    document.getElementById("days").textContent =
+        String(days).padStart(2, "0");
+
+    document.getElementById("hours").textContent =
+        String(hours).padStart(2, "0");
+
+    document.getElementById("mins").textContent =
+        String(mins).padStart(2, "0");
+
+    document.getElementById("secs").textContent =
+        String(secs).padStart(2, "0");
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+
+/* =========================================================
+   YOUTUBE - 1 KLIK PLAY + LOOP
+   ========================================================= */
+
+const overlay = document.getElementById("startOverlay");
+const iframe = document.getElementById("youtube");
+
+overlay.addEventListener("click", function () {
+
+    // Kirim perintah PLAY ke YouTube
+    iframe.contentWindow.postMessage(
+        JSON.stringify({
+            event: "command",
+            func: "playVideo",
+            args: []
+        }),
+        "*"
+    );
+
+    // Hilangkan tombol play
+    overlay.classList.add("hide");
+});
+
+
+/* Jika video selesai, paksa play lagi.
+   Parameter playlist=VIDEO_ID juga membuat YouTube looping.
+*/
+window.addEventListener("message", function(event) {
+
+    let data;
+
+    try {
+        data = JSON.parse(event.data);
+    } catch (e) {
+        return;
+    }
+
+    if (
+        data &&
+        data.event === "onStateChange" &&
+        data.info === 0
+    ) {
+        iframe.contentWindow.postMessage(
+            JSON.stringify({
+                event: "command",
+                func: "playVideo",
+                args: []
+            }),
+            "*"
+        );
+    }
+});
+</script>
+
+</body>
+</html>
