@@ -466,29 +466,32 @@ html, body {
     white-space: nowrap;
 }
 
-.running-text {
-    display: inline-flex;
-    align-items: center;
-    gap: 20px;
+.running-container {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    margin-left: 25px;
+}
 
-    font-size: clamp(11px, .9vw, 20px);
+.running-text {
+    display: inline-block;
+    white-space: nowrap;
+
+    font-size: clamp(12px, .9vw, 20px);
+    font-weight: 600;
     color: white;
 
     animation: runningText 25s linear infinite;
 }
 
-.running-text b {
-    color: #ffbf25;
-    font-size: 18px;
-}
-
 @keyframes runningText {
     from {
-        transform: translateX(0);
+        transform: translateX(100%);
     }
 
     to {
-        transform: translateX(-50%);
+        transform: translateX(-100%);
     }
 }
     
@@ -625,26 +628,8 @@ html, body {
         </div>
 
 <div class="running-container">
-    <div class="running-text">
-        <span>Be Kind</span>
-        <b>•</b>
-        <span>Be Responsible</span>
-        <b>•</b>
-        <span>Be Your Best</span>
-        <b>•</b>
-
-        <span>Be Kind</span>
-        <b>•</b>
-        <span>Be Responsible</span>
-        <b>•</b>
-        <span>Be Your Best</span>
-        <b>•</b>
-
-        <span>Be Kind</span>
-        <b>•</b>
-        <span>Be Responsible</span>
-        <b>•</b>
-        <span>Be Your Best</span>
+    <div class="running-text" id="runningText">
+        Be Kind | Be Responsible | Be Your Best | Welcome to Indonesian Creative School | Inspiring Young Minds, Creating Global Impact
     </div>
 </div>
 
