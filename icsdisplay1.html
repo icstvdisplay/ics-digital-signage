@@ -436,6 +436,40 @@ html, body {
         min-width: 230px;
     }
 }
+
+.running-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+}
+
+.running-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+
+    font-size: clamp(11px, .9vw, 20px);
+    color: white;
+
+    animation: runningText 25s linear infinite;
+}
+
+.running-text b {
+    color: #ffbf25;
+    font-size: 18px;
+}
+
+@keyframes runningText {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(-50%);
+    }
+}
+    
 </style>
 </head>
 
@@ -568,22 +602,29 @@ html, body {
             <div class="welcome-sub">Inspiring Young Minds, Creating Global Impact</div>
         </div>
 
-        <div class="values">
-            <div class="value">
-                <div class="value-icon">♥</div>
-                <span>Be Kind</span>
-            </div>
+<div class="running-container">
+    <div class="running-text">
+        <span>Be Kind</span>
+        <b>•</b>
+        <span>Be Responsible</span>
+        <b>•</b>
+        <span>Be Your Best</span>
+        <b>•</b>
 
-            <div class="value">
-                <div class="value-icon">♟</div>
-                <span>Be Responsible</span>
-            </div>
+        <span>Be Kind</span>
+        <b>•</b>
+        <span>Be Responsible</span>
+        <b>•</b>
+        <span>Be Your Best</span>
+        <b>•</b>
 
-            <div class="value">
-                <div class="value-icon">★</div>
-                <span>Be Your Best</span>
-            </div>
-        </div>
+        <span>Be Kind</span>
+        <b>•</b>
+        <span>Be Responsible</span>
+        <b>•</b>
+        <span>Be Your Best</span>
+    </div>
+</div>
 
     </footer>
 
