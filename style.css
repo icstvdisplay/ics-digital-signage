@@ -92,7 +92,7 @@ color:white;
 font-size:32px;
 font-weight:bold;
 white-space:nowrap;
-animation:move 40s linear infinite;
+animation:move 60s linear infinite;
 }
 
 @keyframes move{
