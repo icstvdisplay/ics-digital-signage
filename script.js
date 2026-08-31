@@ -27,7 +27,7 @@ setInterval(updateClock, 60000);
 //----------------------------------------------
 // COUNTDOWN
 //----------------------------------------------
-const eventDate = new Date("2026-08-17T08:00:00");
+const eventDate = new Date("2026-09-22T07:30:00");
 
 function updateCountdown() {
     const now = new Date();
@@ -35,7 +35,7 @@ function updateCountdown() {
 
     if (diff <= 0) {
         document.getElementById("countdown").innerHTML =
-            "Celebration Independence Day";
+            "Continual Assessment 1 (SA 1)";
         return;
     }
 
@@ -45,7 +45,7 @@ function updateCountdown() {
     const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
     document.getElementById("countdown").innerHTML =
-        `Independence Day : ${days} Days ${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+        `Continual Assessment 1 : ${days} Days ${String(hours).padStart(2,'0')}:${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
 }
 
 updateCountdown();
