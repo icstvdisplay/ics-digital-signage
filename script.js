@@ -31,33 +31,56 @@ setInterval(updateClock, 60000);
 const aqiPopup = document.getElementById("aqi-popup");
 const aqiFrame = document.getElementById("aqi-frame");
 
+const AQI_URL =
+    "https://www.aqi.in/dashboard/indonesia/riau/pekanbaru/pekanbaru";
+
 const AQI_INTERVAL = 10 * 60 * 1000; // 10 menit
 const AQI_DURATION = 30 * 1000;      // 30 detik
 
 
 function showAQI() {
 
-    // Reload halaman AQI supaya mendapatkan
-    // data terbaru setiap kali popup muncul
-    aqiFrame.src =
-        "https://www.aqi.in/dashboard/indonesia/riau/pekanbaru/pekanbaru";
-
-    aqiPopup.style.display = "flex";
-
     console.log("AQI Popup: SHOW");
 
+    /*
+     * Reload halaman AQI.in setiap kali popup muncul.
+     * Dengan begitu data yang ditampilkan adalah
+     * versi terbaru dari halaman AQI.in.
+     */
+    aqiFrame.src = AQI_URL;
+
+    /*
+     * Tunggu sebentar sebelum menampilkan popup
+     * agar iframe punya waktu mulai loading.
+     */
     setTimeout(() => {
 
-        aqiPopup.style.display = "none";
+        aqiPopup.classList.add("show");
 
-        console.log("AQI Popup: HIDE");
+    }, 300);
+
+
+    /*
+     * Sembunyikan setelah 30 detik
+     */
+    setTimeout(() => {
+
+        hideAQI();
 
     }, AQI_DURATION);
 }
 
 
+function hideAQI() {
+
+    console.log("AQI Popup: HIDE");
+
+    aqiPopup.classList.remove("show");
+}
+
+
 /*
- * Muncul pertama kali setelah 10 menit
+ * Popup pertama muncul setelah 10 menit
  */
 setTimeout(showAQI, AQI_INTERVAL);
 
@@ -66,7 +89,6 @@ setTimeout(showAQI, AQI_INTERVAL);
  * Selanjutnya muncul setiap 10 menit
  */
 setInterval(showAQI, AQI_INTERVAL);
-
 
 //----------------------------------------------
 // COUNTDOWN
