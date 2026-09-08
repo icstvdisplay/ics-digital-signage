@@ -24,6 +24,50 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 60000);
 
+/* ==============================
+   AQI POPUP
+   ============================== */
+
+const aqiPopup = document.getElementById("aqi-popup");
+const aqiFrame = document.getElementById("aqi-frame");
+
+const AQI_INTERVAL = 10 * 60 * 1000; // 10 menit
+const AQI_DURATION = 30 * 1000;      // 30 detik
+
+
+function showAQI() {
+
+    // Reload halaman AQI supaya mendapatkan
+    // data terbaru setiap kali popup muncul
+    aqiFrame.src =
+        "https://www.aqi.in/dashboard/indonesia/riau/pekanbaru/pekanbaru";
+
+    aqiPopup.style.display = "flex";
+
+    console.log("AQI Popup: SHOW");
+
+    setTimeout(() => {
+
+        aqiPopup.style.display = "none";
+
+        console.log("AQI Popup: HIDE");
+
+    }, AQI_DURATION);
+}
+
+
+/*
+ * Muncul pertama kali setelah 10 menit
+ */
+setTimeout(showAQI, AQI_INTERVAL);
+
+
+/*
+ * Selanjutnya muncul setiap 10 menit
+ */
+setInterval(showAQI, AQI_INTERVAL);
+
+
 //----------------------------------------------
 // COUNTDOWN
 //----------------------------------------------
