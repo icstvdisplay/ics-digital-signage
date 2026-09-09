@@ -34,7 +34,7 @@ const aqiFrame = document.getElementById("aqi-frame");
 const AQI_URL =
     "https://www.aqi.in/dashboard/indonesia/riau/pekanbaru/pekanbaru";
 
-const AQI_INTERVAL = 10 * 60 * 1000; // 10 menit
+const AQI_INTERVAL = 5 * 60 * 1000; // 10 menit
 const AQI_DURATION = 30 * 1000;      // 30 detik
 
 
