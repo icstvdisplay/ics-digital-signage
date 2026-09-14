@@ -24,7 +24,6 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 60000);
 
-
 /* ==============================
    POPUP SYSTEM
    ============================== */
@@ -36,34 +35,8 @@ setInterval(updateClock, 60000);
 const posterPopup = document.getElementById("poster-popup");
 const posterImage = document.getElementById("poster-image");
 
-const POSTER_FIRST_SHOW = 3 * 60 * 1000; // 3 menit
-const POSTER_INTERVAL = 5 * 60 * 1000;  // setiap 5 menit
-const POSTER_DURATION = 30 * 1000;      // 30 detik
-
-function showPoster() {
-
-    console.log("Poster Popup: SHOW");
-
-    posterPopup.classList.add("show");
-
-    setTimeout(() => {
-        hidePoster();
-    }, POSTER_DURATION);
-}
-
-function hidePoster() {
-
-    console.log("Poster Popup: HIDE");
-
-    posterPopup.classList.remove("show");
-}
-
-// Pertama muncul setelah 3 menit
-setTimeout(showPoster, POSTER_FIRST_SHOW);
-
-// Selanjutnya muncul setiap 5 menit
-setInterval(showPoster, POSTER_INTERVAL);
-
+const POSTER_INTERVAL = 3 * 60 * 1000;
+const POSTER_DURATION = 30 * 1000;
 
 
 //----------------------------------------------
@@ -76,41 +49,118 @@ const aqiFrame = document.getElementById("aqi-frame");
 const AQI_URL =
     "https://www.aqi.in/dashboard/indonesia/riau/pekanbaru/pekanbaru";
 
-const AQI_FIRST_SHOW = 5 * 60 * 1000; // 5 menit
-const AQI_INTERVAL = 5 * 60 * 1000;  // setiap 5 menit
-const AQI_DURATION = 30 * 1000;      // 30 detik
+const AQI_INTERVAL = 5 * 60 * 1000;
+const AQI_DURATION = 30 * 1000;
+
+
+//----------------------------------------------
+// POPUP MANAGER
+//----------------------------------------------
+
+let popupActive = false;
+
+let nextPosterTime = Date.now() + POSTER_INTERVAL;
+let nextAQITime = Date.now() + AQI_INTERVAL;
+
+
+//----------------------------------------------
+// TAMPILKAN POSTER
+//----------------------------------------------
+
+function showPoster() {
+
+    if (popupActive) return;
+
+    popupActive = true;
+
+    console.log("Poster Popup: SHOW");
+
+    posterPopup.classList.add("show");
+
+    setTimeout(() => {
+
+        posterPopup.classList.remove("show");
+
+        popupActive = false;
+
+        console.log("Poster Popup: HIDE");
+
+    }, POSTER_DURATION);
+}
+
+
+//----------------------------------------------
+// TAMPILKAN AQI
+//----------------------------------------------
 
 function showAQI() {
 
+    if (popupActive) return;
+
+    popupActive = true;
+
     console.log("AQI Popup: SHOW");
 
-    // Reload halaman AQI.in setiap kali popup muncul
     aqiFrame.src = AQI_URL;
 
-    // Tunggu sebentar agar iframe mulai loading
     setTimeout(() => {
+
         aqiPopup.classList.add("show");
+
     }, 300);
 
-    // Sembunyikan setelah 30 detik
     setTimeout(() => {
-        hideAQI();
+
+        aqiPopup.classList.remove("show");
+
+        popupActive = false;
+
+        console.log("AQI Popup: HIDE");
+
     }, AQI_DURATION);
 }
 
-function hideAQI() {
 
-    console.log("AQI Popup: HIDE");
+//----------------------------------------------
+// CEK JADWAL POPUP
+//----------------------------------------------
 
-    aqiPopup.classList.remove("show");
+function checkPopups() {
+
+    const now = Date.now();
+
+    if (popupActive) return;
+
+
+    // Poster setiap 3 menit
+    if (now >= nextPosterTime) {
+
+        showPoster();
+
+        nextPosterTime += POSTER_INTERVAL;
+
+        return;
+    }
+
+
+    // AQI setiap 5 menit
+    if (now >= nextAQITime) {
+
+        showAQI();
+
+        nextAQITime += AQI_INTERVAL;
+
+        return;
+    }
+
 }
 
-// Pertama muncul setelah 5 menit
-setTimeout(showAQI, AQI_FIRST_SHOW);
 
-// Selanjutnya muncul setiap 5 menit
-setInterval(showAQI, AQI_INTERVAL);
+//----------------------------------------------
+// JALANKAN
+//----------------------------------------------
 
+setInterval(checkPopups, 1000);
 
 
 //----------------------------------------------
