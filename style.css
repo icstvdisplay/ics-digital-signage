@@ -75,6 +75,75 @@ height:100vh;
 }
 
 /* ==============================
+   POSTER INFORMASI POPUP
+   ============================== */
+
+#poster-popup {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0, 0, 0, 0.78);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 99998;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+
+    transition:
+        opacity 0.6s ease,
+        visibility 0.6s ease;
+}
+
+/* Saat popup aktif */
+
+#poster-popup.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+
+/* ==============================
+   GAMBAR POSTER
+   ============================== */
+
+#poster-popup img {
+    max-width: 90%;
+    max-height: 90%;
+
+    width: auto;
+    height: auto;
+
+    object-fit: contain;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.6);
+
+    transform: scale(0.94);
+
+    transition:
+        transform 0.6s ease;
+}
+
+
+/* Zoom ketika muncul */
+
+#poster-popup.show img {
+    transform: scale(1);
+}
+
+
+/* ==============================
    AQI POPUP
    ============================== */
 
