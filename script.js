@@ -28,6 +28,14 @@ setInterval(updateClock, 60000);
    POPUP SYSTEM
    ============================== */
 
+//==============================================
+// PENGATURAN POPUP
+//==============================================
+
+const ENABLE_POSTER = true; // true = aktif, false = nonaktif
+const ENABLE_AQI = true;    // true = aktif, false = nonaktif
+
+
 //----------------------------------------------
 // POPUP 1 — POSTER INFORMASI
 //----------------------------------------------
@@ -59,8 +67,13 @@ const AQI_DURATION = 30 * 1000;
 
 let popupActive = false;
 
-let nextPosterTime = Date.now() + POSTER_INTERVAL;
-let nextAQITime = Date.now() + AQI_INTERVAL;
+let nextPosterTime = ENABLE_POSTER
+    ? Date.now() + POSTER_INTERVAL
+    : Infinity;
+
+let nextAQITime = ENABLE_AQI
+    ? Date.now() + AQI_INTERVAL
+    : Infinity;
 
 
 //----------------------------------------------
@@ -69,7 +82,7 @@ let nextAQITime = Date.now() + AQI_INTERVAL;
 
 function showPoster() {
 
-    if (popupActive) return;
+    if (!ENABLE_POSTER || popupActive) return;
 
     popupActive = true;
 
@@ -95,7 +108,7 @@ function showPoster() {
 
 function showAQI() {
 
-    if (popupActive) return;
+    if (!ENABLE_AQI || popupActive) return;
 
     popupActive = true;
 
@@ -133,7 +146,7 @@ function checkPopups() {
 
 
     // Poster setiap 3 menit
-    if (now >= nextPosterTime) {
+    if (ENABLE_POSTER && now >= nextPosterTime) {
 
         showPoster();
 
@@ -144,7 +157,7 @@ function checkPopups() {
 
 
     // AQI setiap 5 menit
-    if (now >= nextAQITime) {
+    if (ENABLE_AQI && now >= nextAQITime) {
 
         showAQI();
 
@@ -161,7 +174,6 @@ function checkPopups() {
 //----------------------------------------------
 
 setInterval(checkPopups, 1000);
-
 
 //----------------------------------------------
 // COUNTDOWN
