@@ -43,7 +43,7 @@ const ENABLE_AQI = true;    // true = aktif, false = nonaktif
 const posterPopup = document.getElementById("poster-popup");
 const posterImage = document.getElementById("poster-image");
 
-const POSTER_INTERVAL = 2 * 60 * 1000;
+const POSTER_INTERVAL = 1 * 60 * 1000;
 const POSTER_DURATION = 30 * 1000;
 
 
