@@ -179,7 +179,7 @@ setInterval(checkPopups, 1000);
 // COUNTDOWN
 //----------------------------------------------
 
-const eventDate = new Date("2026-09-22T07:30:00");
+const eventDate = new Date("2026-10-23T00:00:00");
 
 function updateCountdown() {
 
@@ -187,14 +187,15 @@ function updateCountdown() {
     const diff = eventDate - now;
 
     if (diff <= 0) {
-
         document.getElementById("countdown").innerHTML =
             "United Nations Day";
 
         return;
     }
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const days = Math.floor(
+        diff / (1000 * 60 * 60 * 24)
+    );
 
     const hours = Math.floor(
         (diff % (1000 * 60 * 60 * 24)) /
@@ -212,7 +213,7 @@ function updateCountdown() {
     );
 
     document.getElementById("countdown").innerHTML =
-        `Continual Assessment 1 : ${days} Days ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        `United Nations Day : ${days} Days ${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
 updateCountdown();
