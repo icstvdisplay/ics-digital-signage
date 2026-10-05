@@ -43,7 +43,7 @@ const ENABLE_AQI = true;    // true = aktif, false = nonaktif
 const posterPopup = document.getElementById("poster-popup");
 const posterImage = document.getElementById("poster-image");
 
-const POSTER_INTERVAL = 1 * 60 * 1000;
+const POSTER_INTERVAL = 3 * 60 * 1000;
 const POSTER_DURATION = 30 * 1000;
 
 
@@ -189,7 +189,7 @@ function updateCountdown() {
     if (diff <= 0) {
 
         document.getElementById("countdown").innerHTML =
-            "Continual Assessment 1 (SA 1)";
+            "United Nations Day";
 
         return;
     }
