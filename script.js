@@ -24,160 +24,127 @@ function updateClock() {
 updateClock();
 setInterval(updateClock, 60000);
 
-/* ==============================
-   POPUP SYSTEM
-   ============================== */
 
-//==============================================
-// PENGATURAN POPUP
-//==============================================
+/* ==========================================
+   PENGATURAN POSTER POPUP
+========================================== */
 
-const ENABLE_POSTER = true; // true = aktif, false = nonaktif
-const ENABLE_AQI = false;    // true = aktif, false = nonaktif
+// Jeda sebelum rangkaian poster pertama dimulai
+const POSTER_START_DELAY = 3 * 60 * 1000; // 3 menit
+
+// Jeda setelah semua poster selesai, sebelum mengulang
+const POSTER_REPEAT_DELAY = 3 * 60 * 1000; // 3 menit
+
+// Jeda antarposter
+const POSTER_GAP = 2 * 1000; // 2 detik
+
+// Urutan poster yang ditampilkan
+// Ubah urutan angka sesuai kebutuhan
+const POSTER_ORDER = [1, 2, 3, 4, 5];
+
+// Pengaturan setiap poster
+const POSTERS = {
+    1: {
+        enabled: true,
+        image: "images/pop up (1).png",
+        duration: 10 * 1000 // 10 detik
+    },
+
+    2: {
+        enabled: true,
+        image: "images/pop up (2).png",
+        duration: 15 * 1000 // 15 detik
+    },
+
+    3: {
+        enabled: false,
+        image: "images/pop up (3).png",
+        duration: 20 * 1000 // 20 detik
+    },
+
+    4: {
+        enabled: true,
+        image: "images/pop up (4).png",
+        duration: 10 * 1000 // 10 detik
+    },
+
+    5: {
+        enabled: true,
+        image: "images/pop up (5).png",
+        duration: 30 * 1000 // 30 detik
+    }
+};
 
 
-//----------------------------------------------
-// POPUP 1 — POSTER INFORMASI
-//----------------------------------------------
+/* ==========================================
+   POSTER POPUP MANAGER
+========================================== */
 
 const posterPopup = document.getElementById("poster-popup");
 const posterImage = document.getElementById("poster-image");
 
-const POSTER_INTERVAL = 3 * 60 * 1000;
-const POSTER_DURATION = 30 * 1000;
+let posterIndex = 0;
+let posterTimer = null;
 
+function getEnabledPosters() {
+    return POSTER_ORDER.filter(
+        id => POSTERS[id] && POSTERS[id].enabled
+    );
+}
 
-//----------------------------------------------
-// POPUP 2 — INDEKS KUALITAS UDARA
-//----------------------------------------------
+function scheduleNextPoster(delay) {
+    clearTimeout(posterTimer);
+    posterTimer = setTimeout(showNextPoster, delay);
+}
 
-const aqiPopup = document.getElementById("aqi-popup");
-const aqiFrame = document.getElementById("aqi-frame");
+function showNextPoster() {
+    // Jangan tampilkan poster bersamaan dengan popup lain
+    if (typeof popupActive !== "undefined" && popupActive) {
+        scheduleNextPoster(1000);
+        return;
+    }
 
-const AQI_URL =
-    "https://www.aqi.in/id/dashboard/indonesia/riau/pekanbaru/pekanbaru";
+    const enabledPosters = getEnabledPosters();
 
-const AQI_INTERVAL = 5 * 60 * 1000;
-const AQI_DURATION = 30 * 1000;
+    if (enabledPosters.length === 0) {
+        posterPopup.classList.remove("show");
+        return;
+    }
 
+    // Jika semua poster sudah tampil, mulai siklus baru
+    if (posterIndex >= enabledPosters.length) {
+        posterIndex = 0;
+        scheduleNextPoster(POSTER_REPEAT_DELAY);
+        return;
+    }
 
-//----------------------------------------------
-// POPUP MANAGER
-//----------------------------------------------
+    const id = enabledPosters[posterIndex];
+    const poster = POSTERS[id];
 
-let popupActive = false;
-
-let nextPosterTime = ENABLE_POSTER
-    ? Date.now() + POSTER_INTERVAL
-    : Infinity;
-
-let nextAQITime = ENABLE_AQI
-    ? Date.now() + AQI_INTERVAL
-    : Infinity;
-
-
-//----------------------------------------------
-// TAMPILKAN POSTER
-//----------------------------------------------
-
-function showPoster() {
-
-    if (!ENABLE_POSTER || popupActive) return;
-
-    popupActive = true;
-
-    console.log("Poster Popup: SHOW");
+    posterImage.src = poster.image;
+    posterImage.alt = `ICS Event Information ${id}`;
 
     posterPopup.classList.add("show");
 
-    setTimeout(() => {
+    console.log(`Poster ${id}: SHOW`);
 
+    posterTimer = setTimeout(() => {
         posterPopup.classList.remove("show");
 
-        popupActive = false;
+        console.log(`Poster ${id}: HIDE`);
 
-        console.log("Poster Popup: HIDE");
+        posterIndex++;
 
-    }, POSTER_DURATION);
+        scheduleNextPoster(POSTER_GAP);
+    }, poster.duration);
 }
 
-
-//----------------------------------------------
-// TAMPILKAN AQI
-//----------------------------------------------
-
-function showAQI() {
-
-    if (!ENABLE_AQI || popupActive) return;
-
-    popupActive = true;
-
-    console.log("AQI Popup: SHOW");
-
-    aqiFrame.src = AQI_URL;
-
-    setTimeout(() => {
-
-        aqiPopup.classList.add("show");
-
-    }, 300);
-
-    setTimeout(() => {
-
-        aqiPopup.classList.remove("show");
-
-        popupActive = false;
-
-        console.log("AQI Popup: HIDE");
-
-    }, AQI_DURATION);
-}
+// Mulai sistem poster
+scheduleNextPoster(POSTER_START_DELAY);
 
 
 //----------------------------------------------
-// CEK JADWAL POPUP
-//----------------------------------------------
-
-function checkPopups() {
-
-    const now = Date.now();
-
-    if (popupActive) return;
-
-
-    // Poster setiap 3 menit
-    if (ENABLE_POSTER && now >= nextPosterTime) {
-
-        showPoster();
-
-        nextPosterTime += POSTER_INTERVAL;
-
-        return;
-    }
-
-
-    // AQI setiap 5 menit
-    if (ENABLE_AQI && now >= nextAQITime) {
-
-        showAQI();
-
-        nextAQITime += AQI_INTERVAL;
-
-        return;
-    }
-
-}
-
-
-//----------------------------------------------
-// JALANKAN
-//----------------------------------------------
-
-setInterval(checkPopups, 1000);
-
-
-//----------------------------------------------
-// COUNTDOWN - UNITED NATIONS DAY
+// COUNTDOWN 
 //----------------------------------------------
 
 const eventDate = new Date("2026-10-23T00:00:00+07:00");
