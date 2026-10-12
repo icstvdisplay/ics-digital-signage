@@ -75,6 +75,7 @@ height:100vh;
 }
 
 
+
 /* ==============================
    GAMBAR POSTER — FORMAT 16:9
    ============================== */
@@ -82,24 +83,22 @@ height:100vh;
 #poster-popup img {
     display: block;
 
-    width: min(90vw, 160vh);
-    aspect-ratio: 16 / 9;
+    width: 90vw;
+    height: auto;
 
     max-width: 90vw;
     max-height: 90vh;
 
-    height: auto;
+    aspect-ratio: 16 / 9;
     object-fit: contain;
+    object-position: center;
 
     border-radius: 14px;
 
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
 
     transform: scale(0.94);
-
-    transition:
-        transform 0.6s ease;
+    transition: transform 0.6s ease;
 }
 
 /* Zoom ketika muncul */
@@ -107,6 +106,15 @@ height:100vh;
 #poster-popup.show img {
     transform: scale(1);
 }
+
+/* Tampilan desktop */
+
+@media (min-width: 768px) {
+    #poster-popup img {
+        width: min(90vw, 160vh);
+    }
+}
+
 
 
 /* Running Text */
