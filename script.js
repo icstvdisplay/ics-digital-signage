@@ -33,7 +33,7 @@ setInterval(updateClock, 60000);
 //==============================================
 
 const ENABLE_POSTER = true; // true = aktif, false = nonaktif
-const ENABLE_AQI = true;    // true = aktif, false = nonaktif
+const ENABLE_AQI = false;    // true = aktif, false = nonaktif
 
 
 //----------------------------------------------
