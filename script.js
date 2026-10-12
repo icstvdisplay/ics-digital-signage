@@ -55,7 +55,7 @@ const POSTERS = {
     },
 
     2: {
-        enabled: true,
+        enabled: false,
         image: "images/pop up (2).png",
         duration: 15 * 1000
     },
@@ -67,13 +67,13 @@ const POSTERS = {
     },
 
     4: {
-        enabled: true,
+        enabled: false,
         image: "images/pop up (4).png",
         duration: 10 * 1000
     },
 
     5: {
-        enabled: true,
+        enabled: false,
         image: "images/pop up (5).png",
         duration: 30 * 1000
     }
