@@ -61,7 +61,7 @@ const POSTERS = {
     },
 
     3: {
-        enabled: false,
+        enabled: true,
         image: "images/pop up (3).png",
         duration: 20 * 1000
     },
