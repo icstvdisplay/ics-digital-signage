@@ -109,8 +109,8 @@ function scheduleNextPoster(delay) {
     posterTimer = setTimeout(showNextPoster, delay);
 }
 
+
 function showNextPoster() {
-    // Pastikan elemen HTML tersedia
     if (!posterPopup || !posterImage) {
         console.error("Poster popup HTML tidak ditemukan.");
         return;
@@ -118,18 +118,14 @@ function showNextPoster() {
 
     const enabledPosters = getEnabledPosters();
 
-    // Jika semua poster OFF, jangan tampilkan popup
     if (enabledPosters.length === 0) {
         hidePoster();
-        clearTimeout(posterTimer);
         return;
     }
 
-    // Jika seluruh poster selesai, mulai siklus berikutnya
     if (posterIndex >= enabledPosters.length) {
         hidePoster();
         posterIndex = 0;
-
         scheduleNextPoster(POSTER_REPEAT_DELAY);
         return;
     }
@@ -137,56 +133,58 @@ function showNextPoster() {
     const id = enabledPosters[posterIndex];
     const poster = POSTERS[id];
 
-    posterImage.onload = () => {
-        // Tampilkan gambar setelah berhasil dimuat
+    clearTimeout(posterTimer);
+    hidePoster();
+
+    let handled = false;
+
+    function cleanup() {
+        posterImage.onload = null;
+        posterImage.onerror = null;
+    }
+
+    function onLoaded() {
+        if (handled) return;
+        handled = true;
+        cleanup();
+
         posterPopup.classList.add("show");
         console.log(`Poster ${id}: SHOW`);
 
-        clearTimeout(posterTimer);
-
         posterTimer = setTimeout(() => {
             hidePoster();
-
             console.log(`Poster ${id}: HIDE`);
 
             posterIndex++;
             scheduleNextPoster(POSTER_GAP);
         }, poster.duration);
-    };
+    }
 
-    posterImage.onerror = () => {
+    function onFailed() {
+        if (handled) return;
+        handled = true;
+        cleanup();
+
         console.error(`Gagal memuat poster ${id}: ${poster.image}`);
-
-        posterImage.onload = null;
-        posterImage.onerror = null;
 
         posterIndex++;
         scheduleNextPoster(POSTER_GAP);
-    };
+    }
 
-    // Hindari callback lama jika gambar sama
+    posterImage.onload = onLoaded;
+    posterImage.onerror = onFailed;
     posterImage.src = poster.image;
 
-    // Jika gambar sudah ada di cache browser
-    if (posterImage.complete && posterImage.naturalWidth > 0) {
-        posterImage.onload();
+    // Periksa status gambar tanpa memanggil onload secara manual
+    if (posterImage.complete) {
+        if (posterImage.naturalWidth > 0) {
+            onLoaded();
+        } else {
+            onFailed();
+        }
     }
 }
 
-// Mulai jadwal poster
-function startPosterManager() {
-    if (posterCycleStarted) return;
-
-    if (!posterPopup || !posterImage) {
-        console.error("Periksa ID poster-popup dan poster-image di HTML.");
-        return;
-    }
-
-    posterCycleStarted = true;
-    scheduleNextPoster(POSTER_START_DELAY);
-}
-
-startPosterManager();
 
 
 //==============================================
