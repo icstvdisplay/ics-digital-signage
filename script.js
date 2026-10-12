@@ -30,48 +30,40 @@ updateClock();
 setInterval(updateClock, 60000);
 
 
-//==============================================
+
+"use strict";
+
+// ==============================================
 // PENGATURAN POSTER POPUP
-//==============================================
+// ==============================================
 
-// Jeda sebelum poster pertama muncul
-const POSTER_START_DELAY = 3 * 60 * 1000; // 3 menit
-
-// Jeda setelah seluruh rangkaian poster selesai
+const POSTER_START_DELAY = 5 * 1000; // 5 detik
 const POSTER_REPEAT_DELAY = 3 * 60 * 1000; // 3 menit
-
-// Jeda antara poster satu dan berikutnya
 const POSTER_GAP = 2 * 1000; // 2 detik
 
-// Urutan poster yang ditampilkan
 const POSTER_ORDER = [1, 2, 3, 4, 5];
 
-// Pengaturan masing-masing poster
 const POSTERS = {
     1: {
         enabled: true,
         image: "images/pop up (1).png",
         duration: 15 * 1000
     },
-
     2: {
         enabled: true,
         image: "images/pop up (2).png",
         duration: 15 * 1000
     },
-
     3: {
         enabled: true,
         image: "images/pop up (3).png",
         duration: 20 * 1000
     },
-
     4: {
         enabled: false,
         image: "images/pop up (4).png",
         duration: 10 * 1000
     },
-
     5: {
         enabled: false,
         image: "images/pop up (5).png",
@@ -79,114 +71,132 @@ const POSTERS = {
     }
 };
 
-
-//==============================================
+// ==============================================
 // POSTER POPUP MANAGER
-//==============================================
-
-const posterPopup = document.getElementById("poster-popup");
-const posterImage = document.getElementById("poster-image");
+// ==============================================
 
 let posterIndex = 0;
 let posterTimer = null;
-let posterCycleStarted = false;
 
-function getEnabledPosters() {
-    return POSTER_ORDER.filter(id =>
-        POSTERS[id] && POSTERS[id].enabled
-    );
-}
+function startPosterPopup() {
+    const posterPopup = document.getElementById("poster-popup");
+    const posterImage = document.getElementById("poster-image");
 
-function hidePoster() {
-    if (posterPopup) {
+    if (!posterPopup || !posterImage) {
+        console.error(
+            "Poster popup HTML tidak ditemukan. Periksa ID elemen HTML."
+        );
+        return;
+    }
+
+    console.log("Poster popup berhasil diinisialisasi.");
+
+    function getEnabledPosters() {
+        return POSTER_ORDER.filter(
+            id => POSTERS[id] && POSTERS[id].enabled
+        );
+    }
+
+    function hidePoster() {
         posterPopup.classList.remove("show");
     }
-}
 
-function scheduleNextPoster(delay) {
-    clearTimeout(posterTimer);
-
-    posterTimer = setTimeout(showNextPoster, delay);
-}
-
-
-function showNextPoster() {
-    if (!posterPopup || !posterImage) {
-        console.error("Poster popup HTML tidak ditemukan.");
-        return;
+    function scheduleNextPoster(delay) {
+        clearTimeout(posterTimer);
+        posterTimer = setTimeout(showNextPoster, delay);
     }
 
-    const enabledPosters = getEnabledPosters();
+    function showNextPoster() {
+        const enabledPosters = getEnabledPosters();
 
-    if (enabledPosters.length === 0) {
-        hidePoster();
-        return;
-    }
-
-    if (posterIndex >= enabledPosters.length) {
-        hidePoster();
-        posterIndex = 0;
-        scheduleNextPoster(POSTER_REPEAT_DELAY);
-        return;
-    }
-
-    const id = enabledPosters[posterIndex];
-    const poster = POSTERS[id];
-
-    clearTimeout(posterTimer);
-    hidePoster();
-
-    let handled = false;
-
-    function cleanup() {
-        posterImage.onload = null;
-        posterImage.onerror = null;
-    }
-
-    function onLoaded() {
-        if (handled) return;
-        handled = true;
-        cleanup();
-
-        posterPopup.classList.add("show");
-        console.log(`Poster ${id}: SHOW`);
-
-        posterTimer = setTimeout(() => {
+        if (enabledPosters.length === 0) {
             hidePoster();
-            console.log(`Poster ${id}: HIDE`);
+            console.warn("Tidak ada poster yang diaktifkan.");
+            return;
+        }
+
+        if (posterIndex >= enabledPosters.length) {
+            hidePoster();
+            posterIndex = 0;
+            console.log("Rangkaian poster selesai.");
+            scheduleNextPoster(POSTER_REPEAT_DELAY);
+            return;
+        }
+
+        const id = enabledPosters[posterIndex];
+        const poster = POSTERS[id];
+
+        clearTimeout(posterTimer);
+        hidePoster();
+
+        let handled = false;
+
+        function cleanup() {
+            posterImage.onload = null;
+            posterImage.onerror = null;
+        }
+
+        function onLoaded() {
+            if (handled) return;
+            handled = true;
+            cleanup();
+
+            posterPopup.classList.add("show");
+            console.log(`Poster ${id}: SHOW`);
+
+            posterTimer = setTimeout(() => {
+                hidePoster();
+                console.log(`Poster ${id}: HIDE`);
+
+                posterIndex++;
+                scheduleNextPoster(POSTER_GAP);
+            }, poster.duration);
+        }
+
+        function onFailed() {
+            if (handled) return;
+            handled = true;
+            cleanup();
+
+            console.error(
+                `Gagal memuat poster ${id}: ${poster.image}`
+            );
 
             posterIndex++;
             scheduleNextPoster(POSTER_GAP);
-        }, poster.duration);
-    }
+        }
 
-    function onFailed() {
-        if (handled) return;
-        handled = true;
-        cleanup();
+        posterImage.onload = onLoaded;
+        posterImage.onerror = onFailed;
+        posterImage.src = poster.image;
 
-        console.error(`Gagal memuat poster ${id}: ${poster.image}`);
-
-        posterIndex++;
-        scheduleNextPoster(POSTER_GAP);
-    }
-
-    posterImage.onload = onLoaded;
-    posterImage.onerror = onFailed;
-    posterImage.src = poster.image;
-
-    // Periksa status gambar tanpa memanggil onload secara manual
-    if (posterImage.complete) {
-        if (posterImage.naturalWidth > 0) {
-            onLoaded();
-        } else {
-            onFailed();
+        // Menangani gambar yang sudah selesai dimuat
+        if (posterImage.complete) {
+            if (posterImage.naturalWidth > 0) {
+                onLoaded();
+            } else {
+                onFailed();
+            }
         }
     }
-}
-document.addEventListener("DOMContentLoaded", () => {
+
     scheduleNextPoster(POSTER_START_DELAY);
-});
+}
+
+// ==============================================
+// INISIALISASI
+// ==============================================
+
+if (document.readyState === "loading") {
+    document.addEventListener(
+        "DOMContentLoaded",
+        startPosterPopup,
+        { once: true }
+    );
+} else {
+    startPosterPopup();
+}
+
 
 
 //==============================================
