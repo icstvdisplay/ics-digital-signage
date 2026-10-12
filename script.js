@@ -39,7 +39,7 @@ setInterval(updateClock, 60000);
 
 const POSTER_START_DELAY = 3 * 60 * 1000; // 5 detik
 const POSTER_REPEAT_DELAY = 3 * 60 * 1000; // 3 menit
-const POSTER_GAP = 2 * 1000; // 2 detik
+const POSTER_GAP = 15 * 1000; // 2 detik
 
 const POSTER_ORDER = [1, 2, 3, 4, 5];
 
