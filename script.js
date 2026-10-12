@@ -51,11 +51,11 @@ const POSTERS = {
     1: {
         enabled: true,
         image: "images/pop up (1).png",
-        duration: 10 * 1000
+        duration: 15 * 1000
     },
 
     2: {
-        enabled: false,
+        enabled: true,
         image: "images/pop up (2).png",
         duration: 15 * 1000
     },
