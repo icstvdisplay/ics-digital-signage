@@ -74,54 +74,21 @@ height:100vh;
 }
 }
 
-/* ==============================
-   POSTER INFORMASI POPUP
-   ============================== */
-
-#poster-popup {
-    position: fixed;
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.78);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    z-index: 99998;
-
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-
-    transition:
-        opacity 0.6s ease,
-        visibility 0.6s ease;
-}
-
-/* Saat popup aktif */
-
-#poster-popup.show {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-}
-
 
 /* ==============================
-   GAMBAR POSTER
+   GAMBAR POSTER — FORMAT 16:9
    ============================== */
 
 #poster-popup img {
-    max-width: 90%;
-    max-height: 90%;
+    display: block;
 
-    width: auto;
+    width: min(90vw, 160vh);
+    aspect-ratio: 16 / 9;
+
+    max-width: 90vw;
+    max-height: 90vh;
+
     height: auto;
-
     object-fit: contain;
 
     border-radius: 14px;
@@ -135,74 +102,9 @@ height:100vh;
         transform 0.6s ease;
 }
 
-
 /* Zoom ketika muncul */
 
 #poster-popup.show img {
-    transform: scale(1);
-}
-
-
-/* ==============================
-   AQI POPUP
-   ============================== */
-
-#aqi-popup {
-    position: fixed;
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.78);
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    z-index: 99999;
-
-    /* Kondisi awal */
-    opacity: 0;
-    visibility: hidden;
-
-    transition:
-        opacity 0.6s ease,
-        visibility 0.6s ease;
-}
-
-/* Saat popup aktif */
-#aqi-popup.show {
-    opacity: 1;
-    visibility: visible;
-}
-
-
-/* ==============================
-   AQI FRAME
-   ============================== */
-
-#aqi-popup iframe {
-    width: 94%;
-    height: 91%;
-
-    border: 0;
-    border-radius: 14px;
-
-    background: #111;
-
-    box-shadow:
-        0 20px 60px rgba(0, 0, 0, 0.6);
-
-    transform: scale(0.94);
-
-    transition:
-        transform 0.6s ease;
-}
-
-
-/* Zoom ketika muncul */
-#aqi-popup.show iframe {
     transform: scale(1);
 }
 
