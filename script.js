@@ -52,12 +52,12 @@ const POSTERS = {
     2: {
         enabled: true,
         image: "images/pop up (2).png",
-        duration: 15 * 1000
+        duration: 30 * 1000
     },
     3: {
         enabled: true,
         image: "images/pop up (3).png",
-        duration: 20 * 1000
+        duration: 30 * 1000
     },
     4: {
         enabled: false,
