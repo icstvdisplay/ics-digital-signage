@@ -35,7 +35,7 @@ setInterval(updateClock, 60000);
 //==============================================
 
 // Jeda sebelum poster pertama muncul
-const POSTER_START_DELAY = 5 * 1000; // 3 menit
+const POSTER_START_DELAY = 3 * 60 * 1000; // 3 menit
 
 // Jeda setelah seluruh rangkaian poster selesai
 const POSTER_REPEAT_DELAY = 3 * 60 * 1000; // 3 menit
@@ -184,7 +184,9 @@ function showNextPoster() {
         }
     }
 }
-
+document.addEventListener("DOMContentLoaded", () => {
+    scheduleNextPoster(POSTER_START_DELAY);
+});
 
 
 //==============================================
