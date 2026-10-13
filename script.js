@@ -60,13 +60,13 @@ const POSTERS = {
         duration: 30 * 1000
     },
     4: {
-        enabled: false,
+        enabled: true,
         image: "images/pop up (4).png",
-        duration: 10 * 1000
+        duration: 30 * 1000
     },
     5: {
-        enabled: false,
-        image: "images/pop up (5).png",
+        enabled: true,
+        image: "images/pop up (2).png",
         duration: 30 * 1000
     }
 };
