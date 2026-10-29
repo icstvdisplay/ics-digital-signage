@@ -37,9 +37,9 @@ setInterval(updateClock, 60000);
 // PENGATURAN POSTER POPUP
 // ==============================================
 
-const POSTER_START_DELAY = 3 * 60 * 1000; // 3 menit
-const POSTER_REPEAT_DELAY = 3 * 60 * 1000; // 3 menit
-const POSTER_GAP = 3 * 60 * 1000; // 3 menit
+const POSTER_START_DELAY = 1 * 60 * 1000; // 3 menit
+const POSTER_REPEAT_DELAY = 2 * 60 * 1000; // 3 menit
+const POSTER_GAP = 2 * 60 * 1000; // 3 menit
 
 const POSTER_ORDER = [1, 2, 3, 4, 5];
 
