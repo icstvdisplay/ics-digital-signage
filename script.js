@@ -46,7 +46,7 @@ const POSTER_ORDER = [1, 2, 3, 4, 5];
 const POSTERS = {
     1: {
         enabled: true,
-        image: "images/pop up (1).png",
+        image: "images/pop up (4).png",
         duration: 15 * 1000
     },
     2: {
@@ -200,10 +200,10 @@ if (document.readyState === "loading") {
 
 
 //==============================================
-// COUNTDOWN — UNITED NATIONS DAY
+// COUNTDOWN
 //==============================================
 
-const eventDate = new Date("2026-10-23T00:00:00+07:00");
+const eventDate = new Date("2026-11-07T00:00:00+07:00");
 
 function updateCountdown() {
     const countdownElement = document.getElementById("countdown");
@@ -214,7 +214,7 @@ function updateCountdown() {
     const diff = eventDate.getTime() - now.getTime();
 
     if (diff <= 0) {
-        countdownElement.textContent = "United Nations Day";
+        countdownElement.textContent = "ICS Open House";
         return;
     }
 
@@ -233,7 +233,7 @@ function updateCountdown() {
     );
 
     countdownElement.textContent =
-        `United Nations Day : ${days} Days ` +
+        `ICS Open House : ${days} Days ` +
         `${String(hours).padStart(2, "0")}:` +
         `${String(minutes).padStart(2, "0")}:` +
         `${String(seconds).padStart(2, "0")}`;
