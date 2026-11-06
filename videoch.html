@@ -6,226 +6,267 @@
 <meta name="viewport"
       content="width=device-width, initial-scale=1.0">
 
-<title>ICS Fullscreen Video Display</title>
+<title>ICS Videotron Display</title>
 
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #000;
-  }
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
 
-  /* FULLSCREEN BACKGROUND */
-  .screen {
-    position: fixed;
-    inset: 0;
-    width: 100vw;
-    height: 100dvh;
+/* VIDEOTRON 2432 x 768 */
+.screen {
+  position: absolute;
+  width: 2432px;
+  height: 768px;
+  left: 50%;
+  top: 50%;
 
-    background-image: url("images/ch.png");
-    background-size: 100% 100%;
-    background-position: center;
-    background-repeat: no-repeat;
+  transform:
+    translate(-50%, -50%)
+    scale(var(--scale, 1));
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
+  background: url("images/ch.png")
+              center / 100% 100% no-repeat;
 
-  /* VIDEO RASIO 16:9 */
-  .video-container {
-    position: relative;
-    height: 100%;
-    aspect-ratio: 16 / 9;
-    flex-shrink: 0;
-    overflow: hidden;
-    background: #000;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .video-layer {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    transition: opacity 0.35s ease;
-    pointer-events: none;
-  }
+/* VIDEO TENGAH 16:9 */
+.video-container {
+  position: relative;
+  width: 1365.333px;
+  height: 768px;
+  overflow: hidden;
+  background: #000;
+}
 
-  .video-layer.active {
-    opacity: 1;
-    z-index: 2;
-  }
+.player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  pointer-events: none;
+}
 
-  .video-layer iframe {
-    width: 100%;
-    height: 100%;
-    border: 0;
-    display: block;
-  }
+.player.active {
+  opacity: 1;
+  z-index: 2;
+}
+
+.player.standby {
+  z-index: 1;
+}
+
+.player iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="screen">
-
   <div class="video-container">
-    <div id="layer0" class="video-layer active">
-      <div id="player0"></div>
-    </div>
 
-    <div id="layer1" class="video-layer">
-      <div id="player1"></div>
-    </div>
+    <div id="playerA"
+         class="player active"></div>
+
+    <div id="playerB"
+         class="player standby"></div>
+
   </div>
-
 </div>
 
 <script>
-  const VIDEO_ID = "WmzRciQZbTw";
+const VIDEO_ID = "WmzRciQZbTw";
 
-  let players = [];
-  let activeIndex = 0;
-  let switching = false;
-  let duration = 0;
+let players = [];
+let activeIndex = 0;
+let switching = false;
+let lastSwitch = 0;
 
-  const PRELOAD_SECONDS = 2;
-  const CROSSFADE_SECONDS = 0.35;
+const playerElements = [
+  document.getElementById("playerA"),
+  document.getElementById("playerB")
+];
 
-  // Load YouTube IFrame API
-  const tag = document.createElement("script");
-  tag.src = "https://www.youtube.com/iframe_api";
-  document.head.appendChild(tag);
+/* RESPONSIVE SCALE */
+function resizeScreen() {
+  const scale = Math.min(
+    window.innerWidth / 2432,
+    window.innerHeight / 768
+  );
 
-  function onYouTubeIframeAPIReady() {
-    for (let i = 0; i < 2; i++) {
-      players[i] = new YT.Player("player" + i, {
+  document.documentElement.style.setProperty(
+    "--scale", scale
+  );
+}
+
+window.addEventListener("resize", resizeScreen);
+resizeScreen();
+
+/* LOAD YOUTUBE API */
+const tag = document.createElement("script");
+tag.src = "https://www.youtube.com/iframe_api";
+document.head.appendChild(tag);
+
+function onYouTubeIframeAPIReady() {
+
+  for (let i = 0; i < 2; i++) {
+
+    players[i] = new YT.Player(
+      i === 0 ? "playerA" : "playerB",
+      {
+        videoId: VIDEO_ID,
         width: "100%",
         height: "100%",
-        videoId: VIDEO_ID,
+
         playerVars: {
           autoplay: 0,
           controls: 0,
-          disablekb: 1,
-          fs: 0,
-          playsinline: 1,
           rel: 0,
-          modestbranding: 1,
-          iv_load_policy: 3
+          playsinline: 1,
+          disablekb: 1,
+          fs: 0
         },
+
         events: {
-          onReady: (event) => onPlayerReady(event, i),
-          onStateChange: (event) => onStateChange(event, i),
-          onError: (event) => {
-            console.error("YouTube error:", event.data);
+          onReady: function(event) {
+            event.target.mute();
+
+            if (i === 0) {
+              event.target.playVideo();
+            }
+          },
+
+          onStateChange: function(event) {
+            if (
+              event.data === YT.PlayerState.ENDED &&
+              players[activeIndex] === event.target
+            ) {
+              switchVideo();
+            }
           }
         }
-      });
-    }
+      }
+    );
   }
 
-  let readyCount = 0;
+  /* MONITOR VIDEO END */
+  setInterval(() => {
 
-  function onPlayerReady(event, index) {
-    event.target.mute();
-    readyCount++;
+    if (switching) return;
 
-    if (readyCount === 2) {
-      players[0].playVideo();
-      players[1].cueVideoById(VIDEO_ID);
-      monitorPlayback();
-    }
-  }
+    const active = players[activeIndex];
+    const standby = players[1 - activeIndex];
 
-  function onStateChange(event, index) {
-    if (index !== activeIndex) return;
+    if (!active || !standby ||
+        !active.getDuration) return;
 
-    if (event.data === YT.PlayerState.PLAYING) {
-      duration = event.target.getDuration();
-    }
+    const duration = active.getDuration();
+    const current = active.getCurrentTime();
 
-    if (event.data === YT.PlayerState.ENDED && !switching) {
+    if (
+      duration > 0 &&
+      current > 0 &&
+      duration - current <= 0.35
+    ) {
       switchVideo();
     }
+
+  }, 100);
+}
+
+/* SWITCH BETWEEN TWO PLAYERS */
+function switchVideo() {
+
+  if (switching) return;
+
+  const now = Date.now();
+
+  if (now - lastSwitch < 1500) return;
+
+  switching = true;
+  lastSwitch = now;
+
+  const oldIndex = activeIndex;
+  const newIndex = 1 - oldIndex;
+
+  const oldPlayer = players[oldIndex];
+  const newPlayer = players[newIndex];
+
+  if (!newPlayer || !newPlayer.playVideo) {
+    switching = false;
+    return;
   }
 
-  function monitorPlayback() {
-    setInterval(() => {
-      if (switching) return;
+  /* PREPARE NEXT VIDEO */
+  newPlayer.seekTo(0, true);
+  newPlayer.mute();
+  newPlayer.playVideo();
 
-      const player = players[activeIndex];
+  /* WAIT FOR PLAYBACK TO START */
+  let attempts = 0;
 
-      if (!player ||
-          typeof player.getCurrentTime !== "function") {
-        return;
-      }
+  const check = setInterval(() => {
 
-      const current = player.getCurrentTime();
-      const total = player.getDuration();
+    attempts++;
 
-      if (total > 0 &&
-          current >= total - PRELOAD_SECONDS) {
-        switchVideo();
-      }
+    let ready = false;
 
-    }, 200);
-  }
+    try {
+      ready =
+        newPlayer.getPlayerState() ===
+        YT.PlayerState.PLAYING;
+    } catch (e) {}
 
-  function switchVideo() {
-    if (switching) return;
-    switching = true;
+    if (ready) {
 
-    const nextIndex = 1 - activeIndex;
-    const currentPlayer = players[activeIndex];
-    const nextPlayer = players[nextIndex];
+      clearInterval(check);
 
-    nextPlayer.seekTo(0, true);
-    nextPlayer.playVideo();
+      playerElements[newIndex]
+        .classList.add("active");
 
-    // Wait until the next video is playing
-    let attempts = 0;
+      playerElements[newIndex]
+        .classList.remove("standby");
 
-    const waitForPlayback = setInterval(() => {
-      attempts++;
+      playerElements[oldIndex]
+        .classList.remove("active");
 
-      if (nextPlayer.getPlayerState() ===
-          YT.PlayerState.PLAYING) {
+      playerElements[oldIndex]
+        .classList.add("standby");
 
-        clearInterval(waitForPlayback);
+      activeIndex = newIndex;
 
-        document
-          .getElementById("layer" + nextIndex)
-          .classList.add("active");
+      oldPlayer.pauseVideo();
+      oldPlayer.seekTo(0, true);
 
-        document
-          .getElementById("layer" + activeIndex)
-          .classList.remove("active");
+      switching = false;
 
-        const previousIndex = activeIndex;
-        activeIndex = nextIndex;
+    } else if (attempts > 30) {
 
-        setTimeout(() => {
-          currentPlayer.pauseVideo();
-          currentPlayer.seekTo(0, true);
+      clearInterval(check);
+      switching = false;
 
-          switching = false;
-        }, CROSSFADE_SECONDS * 1000);
+    }
 
-      } else if (attempts > 50) {
-        clearInterval(waitForPlayback);
-        switching = false;
-      }
-    }, 100);
-  }
+  }, 100);
+}
 </script>
 
 </body>
