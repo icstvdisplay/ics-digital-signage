@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>ICS Wide Screen Display</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+    }
+
+    /* LAYAR UTAMA */
+    .screen {
+      position: absolute;
+      width: 2432px;
+      height: 768px;
+
+      top: 50%;
+      left: 50%;
+
+      transform:
+        translate(-50%, -50%)
+        scale(var(--scale, 1));
+
+      /* BACKGROUND */
+      background-image: url("background.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* VIDEO YOUTUBE 16:9 */
+    .video-container {
+      width: calc(768px * 16 / 9);
+      height: 768px;
+
+      flex-shrink: 0;
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-container iframe {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="screen">
+
+    <!-- VIDEO YOUTUBE -->
+    <div class="video-container">
+      <iframe
+        id="youtube-video"
+        src="https://www.youtube.com/embed/VIDEO_ID?autoplay=1&mute=1&controls=0&loop=1&playlist=VIDEO_ID&playsinline=1&rel=0"
+        title="ICS Video Display"
+        allow="autoplay; encrypted-media; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+  </div>
+
+  <script>
+    /* RESPONSIVE SCALING */
+    function resizeScreen() {
+      const screenWidth = 2432;
+      const screenHeight = 768;
+
+      const scale = Math.min(
+        window.innerWidth / screenWidth,
+        window.innerHeight / screenHeight
+      );
+
+      document.documentElement.style.setProperty(
+        "--scale",
+        scale
+      );
+    }
+
+    window.addEventListener("resize", resizeScreen);
+    resizeScreen();
+  </script>
+
+</body>
+</html>
