@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -21,12 +20,11 @@
       background: #000;
     }
 
-    /* LAYAR UTAMA */
+    /* LAYAR UTAMA 2432 x 768 */
     .screen {
       position: absolute;
       width: 2432px;
       height: 768px;
-
       top: 50%;
       left: 50%;
 
@@ -34,9 +32,9 @@
         translate(-50%, -50%)
         scale(var(--scale, 1));
 
-      /* BACKGROUND */
-      background-image: url("background.jpg");
-      background-size: cover;
+      /* BACKGROUND GITHUB */
+      background-image: url("images/ch.png");
+      background-size: 100% 100%;
       background-position: center;
       background-repeat: no-repeat;
 
@@ -45,11 +43,10 @@
       justify-content: center;
     }
 
-    /* VIDEO YOUTUBE 16:9 */
+    /* VIDEO YOUTUBE TENGAH */
     .video-container {
       width: calc(768px * 16 / 9);
       height: 768px;
-
       flex-shrink: 0;
       overflow: hidden;
       background: #000;
@@ -68,10 +65,8 @@
 
   <div class="screen">
 
-    <!-- VIDEO YOUTUBE -->
     <div class="video-container">
       <iframe
-        id="youtube-video"
         src="https://www.youtube.com/embed/VIDEO_ID?autoplay=1&mute=1&controls=0&loop=1&playlist=VIDEO_ID&playsinline=1&rel=0"
         title="ICS Video Display"
         allow="autoplay; encrypted-media; picture-in-picture"
@@ -82,19 +77,14 @@
   </div>
 
   <script>
-    /* RESPONSIVE SCALING */
     function resizeScreen() {
-      const screenWidth = 2432;
-      const screenHeight = 768;
-
       const scale = Math.min(
-        window.innerWidth / screenWidth,
-        window.innerHeight / screenHeight
+        window.innerWidth / 2432,
+        window.innerHeight / 768
       );
 
       document.documentElement.style.setProperty(
-        "--scale",
-        scale
+        "--scale", scale
       );
     }
 
