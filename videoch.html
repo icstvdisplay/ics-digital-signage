@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MUN UNEP Display</title>
+    <title>ICS CH Display</title>
 
     <style>
         * {
@@ -28,7 +29,7 @@
             display: block;
         }
 
-        /* Navigation Button */
+        /* Navigation Button - Auto Hide */
         .nav-button {
             position: fixed;
             bottom: 15px;
@@ -42,17 +43,24 @@
             font-family: Arial, sans-serif;
             font-size: 12px;
             text-decoration: none;
-            transition: 0.3s;
+            cursor: pointer;
+
+            /* Sembunyikan tombol */
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .nav-button:hover {
+        /* Munculkan tombol saat kursor diarahkan */
+        .nav-button:hover,
+        .nav-button:focus-visible {
+            opacity: 1;
             background: rgba(0, 0, 0, 0.9);
         }
     </style>
 </head>
 <body>
 
-    <img src="images/monev.png" alt="MUN UNEP">
+    <img src="images/monev.png" alt="ICS Pekanbaru">
 
     <a href="https://ics-digital-signage.pages.dev/videoch1.html" class="nav-button">
         ▶ Video
