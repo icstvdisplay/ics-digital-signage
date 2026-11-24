@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -63,6 +64,28 @@
       height: 100%;
       border: none;
     }
+
+    /* HOME BUTTON */
+    .nav-button {
+      position: fixed;
+      bottom: 15px;
+      left: 15px;
+      z-index: 100;
+      padding: 8px 15px;
+      background: rgba(0, 0, 0, 0.4);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .nav-button:hover {
+      background: rgba(0, 0, 0, 0.9);
+    }
+
   </style>
 </head>
 
@@ -70,20 +93,26 @@
 
   <div class="screen">
 
-    <!-- VIDEO YOUTUBE  -->
+    <!-- VIDEO YOUTUBE -->
     <div class="video-container">
 
-<iframe
-  src="https://www.youtube.com/embed/WuQ1bwYWkho?autoplay=1&mute=0&controls=1&loop=0&playlist=WuQ1bwYWkho&playsinline=1&rel=0"
-  title="ICS Videotron Video"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  referrerpolicy="strict-origin-when-cross-origin"
-  allowfullscreen>
-</iframe>
+      <iframe
+        src="https://www.youtube.com/embed/WuQ1bwYWkho?autoplay=1&mute=0&controls=1&loop=0&playlist=WuQ1bwYWkho&playsinline=1&rel=0"
+        title="ICS Videotron Video"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
 
     </div>
 
   </div>
+
+  <!-- HOME BUTTON -->
+  <a href="https://ics-digital-signage.pages.dev/videoch.html"
+     class="nav-button">
+    ← Home
+  </a>
 
   <script>
     /* FULL SCREEN SCALING */
