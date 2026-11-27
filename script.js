@@ -55,17 +55,17 @@ const POSTERS = {
         duration: 30 * 1000
     },
     3: {
-        enabled: false,
+        enabled: true,
         image: "images/guru.png",
         duration: 30 * 1000
     },
     4: {
-        enabled: false,
+        enabled: true,
         image: "images/planting.png",
         duration: 30 * 1000
     },
     5: {
-        enabled: false,
+        enabled: true,
         image: "images/guru.png",
         duration: 30 * 1000
     }
