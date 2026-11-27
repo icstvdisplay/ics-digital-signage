@@ -45,28 +45,28 @@ const POSTER_ORDER = [1, 2, 3, 4, 5];
 
 const POSTERS = {
     1: {
-        enabled: false,
-        image: "images/minioh.png",
+        enabled: true,
+        image: "images/guru.png",
         duration: 15 * 1000
     },
     2: {
-        enabled: false,
-        image: "images/sponsoroh.png",
+        enabled: true,
+        image: "images/planting.png",
         duration: 30 * 1000
     },
     3: {
         enabled: false,
-        image: "images/minioh.png",
+        image: "images/guru.png",
         duration: 30 * 1000
     },
     4: {
         enabled: false,
-        image: "images/sponsoroh.png",
+        image: "images/planting.png",
         duration: 30 * 1000
     },
     5: {
         enabled: false,
-        image: "images/minioh.png",
+        image: "images/guru.png",
         duration: 30 * 1000
     }
 };
